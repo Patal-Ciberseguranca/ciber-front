@@ -18,6 +18,9 @@ export const Route = createRootRoute({
         <Link to="/api" className="[&.active]:font-bold">
           Api
         </Link>
+        <Link to="/api2" className="[&.active]:font-bold">
+          Api2
+        </Link>
       </div>
       <hr />
       <Outlet />

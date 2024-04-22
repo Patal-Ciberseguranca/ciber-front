@@ -16,12 +16,18 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const Api2LazyImport = createFileRoute('/api2')()
 const ApiLazyImport = createFileRoute('/api')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
 
 // Create/Update Routes
+
+const Api2LazyRoute = Api2LazyImport.update({
+  path: '/api2',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/api2.lazy').then((d) => d.Route))
 
 const ApiLazyRoute = ApiLazyImport.update({
   path: '/api',
@@ -59,6 +65,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiLazyImport
       parentRoute: typeof rootRoute
     }
+    '/api2': {
+      preLoaderRoute: typeof Api2LazyImport
+      parentRoute: typeof rootRoute
+    }
     '/login/': {
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
@@ -72,6 +82,7 @@ export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
   ApiLazyRoute,
+  Api2LazyRoute,
   LoginIndexLazyRoute,
 ])
 

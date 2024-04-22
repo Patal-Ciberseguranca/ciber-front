@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root of app */
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+

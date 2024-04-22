@@ -5,7 +5,6 @@ Este é um projeto de exemplo que utiliza React com Vite, TypeScript e o TanStac
 ## Estrutura do Projeto
 
 - **`__root.tsx`**: Define o componente raiz da aplicação, que contém a barra de navegação e o ponto de saída (`Outlet`) para renderizar os componentes de acordo com a rota.
-  
 - **`index.lazy.tsx`**: Define o componente para a rota raiz ("/") que é carregado de forma assíncrona.
 
 - **`login.lazy.tsx`**: Define o componente para a rota de login ("/login") que também é carregado de forma assíncrona.

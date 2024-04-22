@@ -28,7 +28,7 @@ Para executar este projeto, siga estas etapas:
 
 2. Clone este repositório e navegue até o diretório do projeto.
 
-3. Instale as dependências usando o npm ou yarn:
+3. Instale as dependências usando o npm
 
 4. **Executando o Projeto**:
 
@@ -69,5 +69,3 @@ Para executar este projeto, siga estas etapas:
      ```
 
      Isso iniciará um servidor de pré-visualização local para a versão de produção da aplicação.
-
-   Lembre-se de ajustar as configurações do projeto conforme necessário e aproveite o desenvolvimento com React, Vite, TypeScript e TanStack Router!

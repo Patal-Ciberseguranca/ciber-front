@@ -5,22 +5,24 @@ import '@/app.css';
 export const Route = createRootRoute({
   component: () => (
     <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-        <Link to="/login" className="[&.active]:font-bold">
-          Login
-        </Link>
-        <Link to="/api" className="[&.active]:font-bold">
-          Api
-        </Link>
-        <Link to="/api2" className="[&.active]:font-bold">
-          Api2
-        </Link>
+      <div className="p-3 flex gap-2 justify-center text-xl content-around ">
+        <div className='w-fit p-2 border-none border-2 bg-primary text-black rounded-lg space-x-5'>
+          <Link to="/" className="[&.active]:font-bold p-2 ">
+            Home
+          </Link>
+          <Link to="/about" className="[&.active]:font-bold p-2 ">
+            About
+          </Link>
+          <Link to="/login" className="[&.active]:font-bold p-2 ">
+            Login
+          </Link>
+          <Link to="/api" className="[&.active]:font-bold p-2 ">
+            Api
+          </Link>
+          <Link to="/api2" className="[&.active]:font-bold p-2 ">
+            Api2
+          </Link>
+        </div>
       </div>
       <hr />
       <Outlet />

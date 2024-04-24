@@ -8,7 +8,8 @@ export const Route = createLazyFileRoute('/api2')({
 function Api() {
   const { isPending, error, data } = useQuery({
     queryKey: ['repoData'],
-    queryFn: () => fetch('https://api.sampleapis.com/beers/ale').then((res) => res.json()),
+    queryFn: () =>
+      fetch('https://api.sampleapis.com/beers/ale').then((res) => res.json()),
   });
 
   if (isPending) return 'Loading...';
@@ -21,7 +22,11 @@ function Api() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {data.map((beer) => (
           <div key={beer.id} className="bg-white rounded-lg shadow-md p-6">
-            <img src={beer.image} alt={beer.name} className="h-40 w-full object-cover mb-4" />
+            <img
+              src={beer.image}
+              alt={beer.name}
+              className="h-40 w-full object-cover mb-4"
+            />
             <h2 className="text-xl font-semibold">{beer.name}</h2>
             <p className="text-gray-600">${beer.price}</p>
           </div>

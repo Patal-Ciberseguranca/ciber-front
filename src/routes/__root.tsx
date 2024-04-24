@@ -6,7 +6,7 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <div className="p-3 flex gap-2 justify-center text-xl content-around ">
-        <div className='w-fit p-2 border-none border-2 bg-primary text-black rounded-lg space-x-5'>
+        <div className="w-fit p-2 border-none border-2 bg-primary text-white rounded-lg space-x-5">
           <Link to="/" className="[&.active]:font-bold p-2 ">
             Home
           </Link>

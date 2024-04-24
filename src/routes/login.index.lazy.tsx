@@ -42,7 +42,7 @@ function Login() {
               <input
                 type="submit"
                 value="Submit"
-                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secundary  font-bold py-2 px-4 rounded-lg text-black "
+                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary  font-bold py-2 px-4 rounded-lg text-black "
               ></input>
             </form>
           </div>

@@ -4,10 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#4c4c4c' /* #BB86FC */,  /* #596773 */
-        secundary:'#d6b6fd' /* #03DAC5 */ /* #BB86FC */ /* #77aaff */ /* #9C2A22 */ /* #5b3e31 */ /* #5d437e */ /* #d6b6fd */,
+        primary: '#4c4c4c' /* #BB86FC */ /* #596773 */,
+        secondary:
+          '#d6b6fd' /* #03DAC5 */ /* #BB86FC */ /* #77aaff */ /* #9C2A22 */ /* #5b3e31 */ /* #5d437e */ /* #d6b6fd */,
         background: '#121212',
-        blend: '#5A5352 ' /* #674C87 */ /* #7B494B */,
+        blend: '#9181A5 ' /* #674C87 */ /* #7B494B */,
       },
     },
   },

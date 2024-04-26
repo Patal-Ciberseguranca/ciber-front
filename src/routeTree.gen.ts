@@ -18,8 +18,10 @@ import { Route as rootRoute } from './routes/__root'
 
 const Api2LazyImport = createFileRoute('/api2')()
 const ApiLazyImport = createFileRoute('/api')()
+const AccountLazyImport = createFileRoute('/account')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const RegisterIndexLazyImport = createFileRoute('/register/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
 
 // Create/Update Routes
@@ -34,6 +36,11 @@ const ApiLazyRoute = ApiLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/api.lazy').then((d) => d.Route))
 
+const AccountLazyRoute = AccountLazyImport.update({
+  path: '/account',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/account.lazy').then((d) => d.Route))
+
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
@@ -43,6 +50,13 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const RegisterIndexLazyRoute = RegisterIndexLazyImport.update({
+  path: '/register/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/register.index.lazy').then((d) => d.Route),
+)
 
 const LoginIndexLazyRoute = LoginIndexLazyImport.update({
   path: '/login/',
@@ -61,6 +75,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
+    '/account': {
+      preLoaderRoute: typeof AccountLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/api': {
       preLoaderRoute: typeof ApiLazyImport
       parentRoute: typeof rootRoute
@@ -73,6 +91,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/register/': {
+      preLoaderRoute: typeof RegisterIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -81,9 +103,11 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
+  AccountLazyRoute,
   ApiLazyRoute,
   Api2LazyRoute,
   LoginIndexLazyRoute,
+  RegisterIndexLazyRoute,
 ])
 
 /* prettier-ignore-end */

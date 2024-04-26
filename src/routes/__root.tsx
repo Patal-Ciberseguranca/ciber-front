@@ -22,6 +22,12 @@ export const Route = createRootRoute({
           <Link to="/api2" className="[&.active]:font-bold p-2 ">
             Api2
           </Link>
+          <Link to="/register" className="[&.active]:font-bold p-2 ">
+            Register
+          </Link>
+          <Link to="/account" className="[&.active]:font-bold p-2 ">
+            Account
+          </Link>
         </div>
       </div>
       <hr />

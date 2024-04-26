@@ -1,37 +1,37 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/login/')({
-  component: Login,
+export const Route = createLazyFileRoute('/register/')({
+  component: Register,
 });
 
-function Login() {
+function Register(){
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-120px)]">
+    <div className="flex items-center justify-center h-[calc(100vh-120px)] ">
       {' '}
       {/* centrar corretamente devido a navbar */}
       <div className="flex p-2 content-center justify-center ">
         <div className="relative">
           <div className="border border-blend rounded-md bg-primary relative text-white z-20">
             <form
-              action="get"
+              action="post"
               className=" w-fit p-5 border-none border-2 rounded-lg space-y-3 text-lg justify-center"
             >
-              <h2 className="flex justify-center font-bold">Login</h2>
+              <h2 className="flex justify-center font-bold">Register</h2>
               <label htmlFor="UserLogin" className="block">
-                Username:{' '}
+                New Username:{' '}
               </label>
-              
+              {/* <br /> */}
               <input
                 type="text"
                 id="UserLogin"
                 placeholder="Username"
                 className="border-solid border-2 p-1"
               />
-             
+              {/* <br /> */}
               <label htmlFor="PassLogin" className="block">
-                Password:
+                New Password:
               </label>
-              
+              {/* <br className=''/> */}
               <input
                 type="text"
                 id="PassLogin"

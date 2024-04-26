@@ -28,7 +28,43 @@ function Register() {
       return false;
     }
     /* TO-DO REGISTER API */
-    navigate({ to: '/login' });
+    const resolveAfter3Sec = new Promise(resolve => setTimeout(resolve, 3000));
+    resolveAfter3Sec.then(() => {
+      toast.success('User Registered, Now Login!', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        navigate({ to: '/login' });
+      }, 1500);
+    }).catch(() => {
+      toast.error('User Registration Failed...', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });;
+    });
+    toast.info('Checking Registration Data...', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "dark",
+    });
     return true;
   };
 

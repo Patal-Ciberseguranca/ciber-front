@@ -27,8 +27,43 @@ function Login() {
       return false;
     }
     /* TO-DO LOGIN API */
-    navigate({ to: '/account' });
-    toast.success('Login Successfully!');
+    const resolveAfter3Sec = new Promise(resolve => setTimeout(resolve, 3000));
+    resolveAfter3Sec.then(() => {
+      toast.success('Credentials Approved!', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        navigate({ to: '/account' });
+      }, 1000);
+    }).catch(() => {
+      toast.error('Credentials Incorrect.', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });;
+    });
+    toast.info('Checking User Data...', {
+      position: "bottom-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "dark",
+    });
     return true;
   };
 

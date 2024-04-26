@@ -24,16 +24,16 @@ function About() {
               <strong>João Carneiro</strong> - Nº50938
             </li>
             <li>
-              <strong>João Pinto</strong> - Nº
+              <strong>João Pinto</strong> - Nº49699
             </li>
             <li>
-              <strong>Leonor Moreira</strong> - Nº
+              <strong>Leonor Moreira</strong> - Nº50877
             </li>
             <li>
-              <strong>Eduardo Abrantes</strong> - Nº
+              <strong>Eduardo Abrantes</strong> - Nº50391
             </li>
             <li>
-              <strong>Rodrigo Paiva</strong> - Nº
+              <strong>Rodrigo Paiva</strong> - Nº49442
             </li>
             <li>
               <strong>Matilde Almeida</strong> - Nº

@@ -1,5 +1,7 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { useNavigate, createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Route = createLazyFileRoute('/login/')({
   component: Login,
@@ -8,16 +10,22 @@ export const Route = createLazyFileRoute('/login/')({
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate({ from: '/login' });
 
   const TryLogin = async () => {
     if (username == '' || password == '') {
+      toast.error('Some Fields are in Fault.');
       return false;
     }
+    /* TO-DO LOGIN API */
+    navigate({ to: '/account' });
+    toast.success('Login Successfully!');
     return true;
   };
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-120px)]">
+      <ToastContainer />
       {' '}
       {/* centrar corretamente devido a navbar */}
       <div className="flex p-2 content-center justify-center ">

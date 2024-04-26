@@ -5,6 +5,21 @@ export const Route = createLazyFileRoute('/login/')({
 });
 
 function Login() {
+  var username = "";
+  var password = "";
+
+  const setUsername = (value:any) => {
+    username = value;
+  }
+
+  const setPassword = (value:any) => {
+    password = value;
+  }
+
+  const TryLogin = async () => {
+    return true;
+  }
+
   return (
     <div className="flex items-center justify-center h-[calc(100vh-120px)]">
       {' '}
@@ -17,33 +32,32 @@ function Login() {
               className=" w-fit p-5 border-none border-2 rounded-lg space-y-3 text-lg justify-center"
             >
               <h2 className="flex justify-center font-bold">Login</h2>
-              <label htmlFor="UserLogin" className="block">
+              <label className="block">
                 Username:{' '}
               </label>
-              
+
               <input
                 type="text"
-                id="UserLogin"
                 placeholder="Username"
-                className="border-solid border-2 p-1"
+                className="border-solid border-2 p-1 font-bold text-black" 
+                onChange={(e) => { setUsername(e.target.value) }}
               />
-             
-              <label htmlFor="PassLogin" className="block">
+
+              <label className="block">
                 Password:
               </label>
-              
+
               <input
-                type="text"
-                id="PassLogin"
+                type="password"
                 placeholder="Password"
-                className="border-solid border-2 p-1"
+                className="border-solid border-2 p-1 font-bold text-black" 
+                onChange={(e) => { setPassword(e.target.value) }}
               />
               <br />
-              <input
-                type="submit"
-                value="Submit"
-                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary  font-bold py-2 px-4 rounded-lg text-black "
-              ></input>
+              <button
+                onClick={TryLogin}
+                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 rounded-lg text-black"
+              >Login</button>
             </form>
           </div>
           <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-primary via-blend to-primary z-10"></div>

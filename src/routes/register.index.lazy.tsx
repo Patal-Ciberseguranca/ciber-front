@@ -11,7 +11,7 @@ function Register() {
   const [password, setPassword] = useState('');
 
   const TryRegister = async () => {
-    if (username == "" || email == "" || password == "") {
+    if (username == '' || email == '' || password == '') {
       return false;
     }
     return true;
@@ -71,7 +71,9 @@ function Register() {
               <button
                 onClick={TryRegister}
                 className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 rounded-lg text-black"
-              >Register</button>
+              >
+                Register
+              </button>
             </div>
           </div>
           <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-primary via-blend to-primary z-10"></div>

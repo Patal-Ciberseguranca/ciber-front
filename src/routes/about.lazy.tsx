@@ -24,7 +24,7 @@ function About() {
               <strong>João Carneiro</strong> - Nº50938
             </li>
             <li>
-              <strong>João Pinto</strong> - Nº49699
+              <strong>João Pinto</strong> - Nº49889
             </li>
             <li>
               <strong>Leonor Moreira</strong> - Nº50877

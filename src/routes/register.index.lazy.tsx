@@ -15,7 +15,16 @@ function Register() {
 
   const TryRegister = async () => {
     if (username == '' || email == '' || password == '') {
-      toast.error('Some Fields are in Fault.');
+      toast.error('Some Fields are in Fault', {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+      });
       return false;
     }
     /* TO-DO REGISTER API */

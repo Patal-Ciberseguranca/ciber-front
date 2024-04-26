@@ -26,7 +26,6 @@ function Login() {
             <div className=" w-fit p-5 border-none border-2 rounded-lg space-y-3 text-lg justify-center">
               <h2 className="flex justify-center font-bold">Login</h2>
               <label className="block">Username: </label>
-
               <input
                 type="text"
                 placeholder="Username"

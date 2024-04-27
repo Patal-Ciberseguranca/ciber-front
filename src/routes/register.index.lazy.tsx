@@ -16,63 +16,65 @@ function Register() {
   const TryRegister = async () => {
     if (username == '' || email == '' || password == '') {
       toast.error('Some Fields are in Fault', {
-        position: "bottom-center",
+        position: 'bottom-center',
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: false,
         progress: undefined,
-        theme: "dark",
+        theme: 'dark',
       });
       return false;
     }
     /* TO-DO REGISTER API */
-    const resolveAfter3Sec = new Promise(resolve => setTimeout(resolve, 3000));
-    resolveAfter3Sec.then(() => {
-      toast.success('User Registered, Now Login!', {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "dark",
+    const resolveAfter3Sec = new Promise((resolve) =>
+      setTimeout(resolve, 3000),
+    );
+    resolveAfter3Sec
+      .then(() => {
+        toast.success('User Registered, Now Login!', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: 'dark',
+        });
+        setTimeout(() => {
+          navigate({ to: '/login' });
+        }, 1500);
+      })
+      .catch(() => {
+        toast.error('User Registration Failed...', {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: 'dark',
+        });
       });
-      setTimeout(() => {
-        navigate({ to: '/login' });
-      }, 1500);
-    }).catch(() => {
-      toast.error('User Registration Failed...', {
-        position: "bottom-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "dark",
-      });;
-    });
     toast.info('Checking Registration Data...', {
-      position: "bottom-center",
+      position: 'bottom-center',
       autoClose: 5000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: false,
       progress: undefined,
-      theme: "dark",
+      theme: 'dark',
     });
     return true;
   };
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-120px)] ">
-      <ToastContainer />
-      {' '}
-      {/* centrar corretamente devido a navbar */}
+      <ToastContainer /> {/* centrar corretamente devido a navbar */}
       <div className="flex p-2 content-center justify-center ">
         <div className="relative">
           <div className="border border-blend rounded-md bg-primary relative text-white z-20">

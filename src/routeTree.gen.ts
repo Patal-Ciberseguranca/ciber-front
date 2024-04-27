@@ -16,6 +16,8 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const Messages2LazyImport = createFileRoute('/messages2')()
+const MessagesLazyImport = createFileRoute('/messages')()
 const Api2LazyImport = createFileRoute('/api2')()
 const ApiLazyImport = createFileRoute('/api')()
 const AccountLazyImport = createFileRoute('/account')()
@@ -25,6 +27,16 @@ const RegisterIndexLazyImport = createFileRoute('/register/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
 
 // Create/Update Routes
+
+const Messages2LazyRoute = Messages2LazyImport.update({
+  path: '/messages2',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/messages2.lazy').then((d) => d.Route))
+
+const MessagesLazyRoute = MessagesLazyImport.update({
+  path: '/messages',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/messages.lazy').then((d) => d.Route))
 
 const Api2LazyRoute = Api2LazyImport.update({
   path: '/api2',
@@ -87,6 +99,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Api2LazyImport
       parentRoute: typeof rootRoute
     }
+    '/messages': {
+      preLoaderRoute: typeof MessagesLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/messages2': {
+      preLoaderRoute: typeof Messages2LazyImport
+      parentRoute: typeof rootRoute
+    }
     '/login/': {
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
@@ -106,6 +126,8 @@ export const routeTree = rootRoute.addChildren([
   AccountLazyRoute,
   ApiLazyRoute,
   Api2LazyRoute,
+  MessagesLazyRoute,
+  Messages2LazyRoute,
   LoginIndexLazyRoute,
   RegisterIndexLazyRoute,
 ])

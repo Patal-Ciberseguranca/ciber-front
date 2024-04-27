@@ -18,7 +18,7 @@ function About() {
           id="equipa"
           className="mb-8 rounded-lg bg-white bg-opacity-10 p-6"
         >
-          <h2 className="text-4xl font-bold mb-4">Grupo:</h2>
+          <h2 className="text-4xl font-bold mb-4">Constituição do Grupo:</h2>
           <ul className="list-none text-xl">
             <li>
               <strong>João Carneiro</strong> - Nº50938

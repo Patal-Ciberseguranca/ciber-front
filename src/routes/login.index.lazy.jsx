@@ -1,20 +1,45 @@
 import { useNavigate, createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const Route = createLazyFileRoute('/register/')({
-  component: Register,
+export const Route = createLazyFileRoute('/login/')({
+  component: Login,
 });
 
-function Register() {
+function Login() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate({ from: '/register' });
+  const navigate = useNavigate({ from: '/login' });
 
-  const TryRegister = async () => {
-    if (username == '' || email == '' || password == '') {
+  async function SubmitLogin(e) {
+    e.preventDefault();
+
+    try {
+      await axios
+        .post('http://localhost:3000/login', {
+          username,
+          password,
+        })
+        .then((res) => {
+          if (res.data == 'exist') {
+            navigate('/profile', { state: { id: username } });
+          } else if (res.data == 'notexist') {
+            alert('Esse utilizador não existe!');
+          }
+        })
+        .catch((e) => {
+          alert('Detalhes Errados!');
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /* const TryLogin = async () => {
+    if (username == '' || password == '') {
       toast.error('Some Fields are in Fault', {
         position: 'bottom-center',
         autoClose: 5000,
@@ -27,13 +52,13 @@ function Register() {
       });
       return false;
     }
-    /* TO-DO REGISTER API */
+    TO-DO LOGIN API 
     const resolveAfter3Sec = new Promise((resolve) =>
       setTimeout(resolve, 3000),
     );
     resolveAfter3Sec
       .then(() => {
-        toast.success('User Registered, Now Login!', {
+        toast.success('Credentials Approved!', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -44,11 +69,11 @@ function Register() {
           theme: 'dark',
         });
         setTimeout(() => {
-          navigate({ to: '/login' });
-        }, 1500);
+          navigate({ to: '/account' });
+        }, 1000);
       })
       .catch(() => {
-        toast.error('User Registration Failed...', {
+        toast.error('Credentials Incorrect.', {
           position: 'bottom-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -59,7 +84,7 @@ function Register() {
           theme: 'dark',
         });
       });
-    toast.info('Checking Registration Data...', {
+    toast.info('Checking User Data...', {
       position: 'bottom-center',
       autoClose: 5000,
       hideProgressBar: false,
@@ -70,51 +95,30 @@ function Register() {
       theme: 'dark',
     });
     return true;
-  };
+  }; */
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-120px)] ">
+    <div className="flex items-center justify-center h-[calc(100vh-120px)]">
       <ToastContainer /> {/* centrar corretamente devido a navbar */}
       <div className="flex p-2 content-center justify-center ">
         <div className="relative">
           <div className="border border-blend rounded-md bg-primary relative text-white z-20">
             <div className=" w-fit p-5 border-none border-2 rounded-lg space-y-3 text-lg justify-center">
-              <h2 className="flex justify-center font-bold">Register</h2>
-              <label htmlFor="UserLogin" className="block">
-                New Username:{' '}
-              </label>
-              {/* <br /> */}
+              <h2 className="flex justify-center font-bold">Login</h2>
+              <label className="block">Username: </label>
               <input
                 type="text"
-                id="UserLogin"
                 placeholder="Username"
                 className="border-solid border-2 p-1 font-bold text-black"
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
               />
-              {/* <br /> */}
-              <label htmlFor="EmailLogin" className="block">
-                New E-Mail:{' '}
-              </label>
-              {/* <br /> */}
-              <input
-                type="text"
-                id="EmailLogin"
-                placeholder="E-Mail"
-                className="border-solid border-2 p-1 font-bold text-black"
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              {/* <br /> */}
-              <label htmlFor="PassLogin" className="block">
-                New Password:
-              </label>
-              {/* <br className=''/> */}
+
+              <label className="block">Password:</label>
+
               <input
                 type="password"
-                id="PassLogin"
                 placeholder="Password"
                 className="border-solid border-2 p-1 font-bold text-black"
                 onChange={(e) => {
@@ -123,10 +127,10 @@ function Register() {
               />
               <br />
               <button
-                onClick={TryRegister}
+                onClick={SubmitLogin}
                 className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 rounded-lg text-black"
               >
-                Register
+                Login
               </button>
             </div>
           </div>

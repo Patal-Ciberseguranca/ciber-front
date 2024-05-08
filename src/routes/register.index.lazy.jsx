@@ -25,9 +25,9 @@ function Register() {
           password,
         })
         .then((res) => {
-          if (res.data == 'exist') {
+          if (res.data == 'UtilizadorExiste') {
             alert('Esse utilizador já existe!');
-          } else if (res.data == 'notexist') {
+          } else if (res.data == 'Sucesso') {
             navigate('/profile', { state: { id: username } });
           }
         })

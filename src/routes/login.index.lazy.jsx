@@ -23,10 +23,12 @@ function Login() {
           password,
         })
         .then((res) => {
-          if (res.data == 'exist') {
+          if (res.data == 'Sucesso') {
             navigate('/profile', { state: { id: username } });
-          } else if (res.data == 'notexist') {
+          } else if (res.data == 'UtilizadorNaoExiste') {
             alert('Esse utilizador não existe!');
+          } else if (res.data == 'PasswordErrada') {
+            alert('Password Errada');
           }
         })
         .catch((e) => {

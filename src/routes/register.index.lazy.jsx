@@ -18,23 +18,23 @@ function Register() {
     e.preventDefault();
 
     try {
-      await axios
-        .post('http://localhost:3000/register', {
-          username,
-          email,
-          password,
-        })
-        .then((res) => {
-          if (res.data == 'UtilizadorExiste') {
-            alert('Esse utilizador já existe!');
-          } else if (res.data == 'Sucesso') {
-            navigate({ to: '/profile', state: { id: username } });
-          }
-        })
-        .catch((e) => {
-          alert('Detalhes Errados!');
-          console.log(e);
-        });
+      const response = await axios.post('http://localhost:3000/register', {
+        username,
+        email,
+        password,
+      });
+
+      const { data } = response;
+
+      if (data == 'UtilizadorExiste') {
+        alert('Esse utilizador já existe!');
+
+      } else if (data.token) {
+        const token = data.token;
+        localStorage.setItem('token', token);
+        navigate({ to: '/profile', state: { id: username } });
+      }
+
     } catch (e) {
       console.log(e);
     }

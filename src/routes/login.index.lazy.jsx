@@ -17,24 +17,25 @@ function Login() {
     e.preventDefault();
 
     try {
-      await axios
-        .post('http://localhost:3000/login', {
-          username,
-          password,
-        })
-        .then((res) => {
-          if (res.data == 'Sucesso') {
-            navigate('/profile', { state: { id: username } });
-          } else if (res.data == 'UtilizadorNaoExiste') {
-            alert('Esse utilizador não existe!');
-          } else if (res.data == 'PasswordErrada') {
-            alert('Password Errada');
-          }
-        })
-        .catch((e) => {
-          alert('Detalhes Errados!');
-          console.log(e);
-        });
+      const response = await axios.post('http://localhost:3000/login', {
+        username,
+        password,
+      });
+
+      const { data } = response;
+
+      if (data.token) {
+        const token = data.token;
+        localStorage.setItem('token', token);
+        navigate({ to: '/profile', state: { id: username } });
+
+      } else if (data == 'UtilizadorNaoExiste') {
+        alert('Esse utilizador não existe!');
+
+      } else if (data == 'PasswordErrada') {
+        alert('Password Errada');
+      }
+      
     } catch (e) {
       console.log(e);
     }

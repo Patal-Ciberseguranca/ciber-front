@@ -28,7 +28,7 @@ function Register() {
           if (res.data == 'UtilizadorExiste') {
             alert('Esse utilizador já existe!');
           } else if (res.data == 'Sucesso') {
-            navigate('/profile', { state: { id: username } });
+            navigate({ to: '/profile', state: { id: username } });
           }
         })
         .catch((e) => {

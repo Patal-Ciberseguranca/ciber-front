@@ -15,7 +15,7 @@ interface MyRouterContext {
 }
 
 const Root = (): React.ReactNode => {
-  const context = Route.useRouteContext()
+  const context = Route.useRouteContext();
   return (
     <>
       <div className="p-3 flex gap-2 justify-center text-xl content-around ">
@@ -41,17 +41,17 @@ const Root = (): React.ReactNode => {
           <Link to="/account" className="[&.active]:font-bold p-2 ">
             Account
           </Link>
-          <Link to="/messages" className="[&.active]:font-bold p-2 ">
-            Messages
+          <Link to="/registos" className="[&.active]:font-bold p-2 ">
+            Registos
           </Link>
           <Link to="/messages2" className="[&.active]:font-bold p-2 ">
             Messages2
           </Link>
-          {context.auth.isAuthenticated ? 
+          {context.auth.isAuthenticated ? (
             <Link to="/profile" className="[&.active]:font-bold p-2 ">
               Profile
-            </Link> : null
-          }
+            </Link>
+          ) : null}
         </div>
       </div>
       <hr />

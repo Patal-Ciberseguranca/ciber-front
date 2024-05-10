@@ -1,8 +1,8 @@
-import { useNavigate, createLazyFileRoute } from '@tanstack/react-router';
+import { createLazyFileRoute, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '@/components/AuthProvider';
 
 export const Route = createLazyFileRoute('/login/')({
   component: Login,
@@ -11,34 +11,44 @@ export const Route = createLazyFileRoute('/login/')({
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate({ from: '/login' });
-
-  async function SubmitLogin(e) {
+  const auth = useAuth();
+  async function SubmitLogin(e: any) {
     e.preventDefault();
 
-    try {
-      const response = await axios.post('http://localhost:3000/login', {
-        username,
-        password,
+    const success = auth.loginAction(username, password);
+
+    success
+      .then((success) => {
+        if (success) {
+          toast.success('Credentials Approved!', {
+            position: 'bottom-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: 'dark',
+          });
+
+          throw redirect({
+            to: '/profile',
+          });
+        }
+      })
+      .catch((error) => {
+        console.log('error');
+        toast.error(error.message, {
+          position: 'bottom-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: 'dark',
+        });
       });
-
-      const { data } = response;
-
-      if (data.token) {
-        const token = data.token;
-        localStorage.setItem('token', token);
-        navigate({ to: '/profile', state: { id: username } });
-
-      } else if (data == 'UtilizadorNaoExiste') {
-        alert('Esse utilizador não existe!');
-
-      } else if (data == 'PasswordErrada') {
-        alert('Password Errada');
-      }
-      
-    } catch (e) {
-      console.log(e);
-    }
   }
 
   /* const TryLogin = async () => {

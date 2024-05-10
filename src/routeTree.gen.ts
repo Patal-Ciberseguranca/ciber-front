@@ -13,10 +13,10 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ProfileImport } from './routes/profile'
 
 // Create Virtual Routes
 
-const ProfileLazyImport = createFileRoute('/profile')()
 const Messages2LazyImport = createFileRoute('/messages2')()
 const MessagesLazyImport = createFileRoute('/messages')()
 const Api2LazyImport = createFileRoute('/api2')()
@@ -28,11 +28,6 @@ const RegisterIndexLazyImport = createFileRoute('/register/')()
 const LoginIndexLazyImport = createFileRoute('/login/')()
 
 // Create/Update Routes
-
-const ProfileLazyRoute = ProfileLazyImport.update({
-  path: '/profile',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/profile.lazy').then((d) => d.Route))
 
 const Messages2LazyRoute = Messages2LazyImport.update({
   path: '/messages2',
@@ -64,6 +59,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
+const ProfileRoute = ProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -87,6 +87,10 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile': {
+      preLoaderRoute: typeof ProfileImport
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -113,10 +117,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Messages2LazyImport
       parentRoute: typeof rootRoute
     }
-    '/profile': {
-      preLoaderRoute: typeof ProfileLazyImport
-      parentRoute: typeof rootRoute
-    }
     '/login/': {
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
@@ -132,13 +132,13 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
+  ProfileRoute,
   AboutLazyRoute,
   AccountLazyRoute,
   ApiLazyRoute,
   Api2LazyRoute,
   MessagesLazyRoute,
   Messages2LazyRoute,
-  ProfileLazyRoute,
   LoginIndexLazyRoute,
   RegisterIndexLazyRoute,
 ])

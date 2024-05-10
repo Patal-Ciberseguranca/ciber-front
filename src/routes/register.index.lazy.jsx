@@ -28,13 +28,11 @@ function Register() {
 
       if (data == 'UtilizadorExiste') {
         alert('Esse utilizador já existe!');
-
       } else if (data.token) {
         const token = data.token;
         localStorage.setItem('token', token);
         navigate({ to: '/profile', state: { id: username } });
       }
-
     } catch (e) {
       console.log(e);
     }

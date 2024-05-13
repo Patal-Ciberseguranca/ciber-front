@@ -1,4 +1,8 @@
-import { createLazyFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import {
+  createLazyFileRoute,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +16,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const auth = useAuth();
-  const navigate = useNavigate({ from: '/login'});
+  const navigate = useNavigate({ from: '/login' });
   async function SubmitLogin(e: any) {
     e.preventDefault();
 
@@ -33,14 +37,14 @@ function Login() {
           });
           setTimeout(() => {
             navigate({
-              to: '/profile'
+              to: '/registos',
             });
           }, 1500);
         }
       })
       .catch((error) => {
         if (error) {
-          console.log('Error: '+error.message);
+          console.log('Error: ' + error.message);
           toast.error(error.message, {
             position: 'bottom-center',
             autoClose: 1500,

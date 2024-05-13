@@ -2,10 +2,13 @@ import {
   createRootRouteWithContext,
   Link,
   Outlet,
+  useNavigate,
   useRouteContext,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
-import { AuthContext } from '@/components/AuthProvider';
+import { AuthContext, useAuth } from '@/components/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import '@/app.css';
 
@@ -16,6 +19,24 @@ interface MyRouterContext {
 
 const Root = (): React.ReactNode => {
   const context = Route.useRouteContext();
+  const navigate = useNavigate();
+  const user = useAuth();
+
+  const doUserLogout = () => {
+    toast.error('Sessão Terminada com Sucesso!', {
+      position: 'bottom-center',
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: 'dark',
+    });
+    user.logOut(); 
+    setTimeout(() => {navigate({ to: '/' }); }, 1000);
+  };
+
   return (
     <>
       <div className="p-3 flex gap-2 justify-center text-xl content-around ">
@@ -26,35 +47,19 @@ const Root = (): React.ReactNode => {
           <Link to="/about" className="[&.active]:font-bold p-2 ">
             About
           </Link>
-          <Link to="/login" className="[&.active]:font-bold p-2 ">
-            Login
-          </Link>
-          <Link to="/api" className="[&.active]:font-bold p-2 ">
-            Api
-          </Link>
-          <Link to="/api2" className="[&.active]:font-bold p-2 ">
-            Api2
-          </Link>
-          <Link to="/register" className="[&.active]:font-bold p-2 ">
-            Register
-          </Link>
-          <Link to="/account" className="[&.active]:font-bold p-2 ">
-            Account
-          </Link>
-          <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
-            Criar Registo
-          </Link>
-          <Link to="/registos" className="[&.active]:font-bold p-2 ">
-            Registos
-          </Link>
-          <Link to="/messages2" className="[&.active]:font-bold p-2 ">
-            Messages2
-          </Link>
           {context.auth.isAuthenticated ? (
-            <Link to="/profile" className="[&.active]:font-bold p-2 ">
-              Profile
+            <><Link to="/messages2" className="[&.active]:font-bold p-2 ">
+              Messages2
             </Link>
-          ) : null}
+            <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
+              Criar Registo
+            </Link>
+            <Link to="/registos" className="[&.active]:font-bold p-2 ">
+              Registos
+            </Link>
+            <Link onClick={() => { doUserLogout() }}>Logout</Link>
+            </>
+          ) : <></>}
         </div>
       </div>
       <hr />

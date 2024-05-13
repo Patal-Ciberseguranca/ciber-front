@@ -1,12 +1,43 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { useAuth } from '@/components/AuthProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from 'react';
 
-export const Route = createLazyFileRoute('/registos')({
+export const Route = createFileRoute('/registos')({
+  beforeLoad: ({ context }) => {
+    
+  },
   component: Registos,
 });
 
 function Registos() {
+  const navigate = useNavigate(); 
+  const context = Route.useRouteContext();
+
+  useEffect(() => {
+    if (!context.auth.isAuthenticated) {
+      toast.error('Tens de Iniciar Sessão Primeiro!', {
+        position: 'bottom-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
+      });
+      setTimeout(() => {
+        navigate({
+          to: '/login',
+        });
+      }, 1500);
+    }
+  })
+
   return (
     <div className="flex bg-background text-white">
+      <ToastContainer /> 
       {/* Barra Esquerda Lateral */}
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-semibold mb-4">Registro Cifrado</h1>

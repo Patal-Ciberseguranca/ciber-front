@@ -24,7 +24,9 @@ export const Route = createFileRoute('/profile')({
 function Profile() {
   const navigate = useNavigate();
   // const navigate = useNavigate({ from: '/profile' });
+  const context = Route.useRouteContext();
   const user = useAuth();
+  console.log(context.auth.user);
 
   // Função para realizar logout
   // const logout = () => {
@@ -37,7 +39,7 @@ function Profile() {
 
   return (
     <div>
-      <h1> Perfil de </h1>
+      <h1> Perfil de {user.token}</h1>
       <button
         onClick={() => {
           user.logOut();

@@ -1,4 +1,4 @@
-import { createLazyFileRoute, redirect } from '@tanstack/react-router';
+import { createLazyFileRoute, redirect, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,7 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const auth = useAuth();
+  const navigate = useNavigate({ from: '/login'});
   async function SubmitLogin(e: any) {
     e.preventDefault();
 
@@ -22,7 +23,7 @@ function Login() {
         if (success) {
           toast.success('Credentials Approved!', {
             position: 'bottom-center',
-            autoClose: 3000,
+            autoClose: 1500,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -30,24 +31,27 @@ function Login() {
             progress: undefined,
             theme: 'dark',
           });
-
-          throw redirect({
-            to: '/profile',
-          });
+          setTimeout(() => {
+            navigate({
+              to: '/profile'
+            });
+          }, 1500);
         }
       })
       .catch((error) => {
-        console.log('error');
-        toast.error(error.message, {
-          position: 'bottom-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: 'dark',
-        });
+        if (error) {
+          console.log('Error: '+error.message);
+          toast.error(error.message, {
+            position: 'bottom-center',
+            autoClose: 1500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+            theme: 'dark',
+          });
+        }
       });
   }
 

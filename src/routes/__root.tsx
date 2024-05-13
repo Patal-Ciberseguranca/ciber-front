@@ -41,6 +41,9 @@ const Root = (): React.ReactNode => {
           <Link to="/account" className="[&.active]:font-bold p-2 ">
             Account
           </Link>
+          <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
+            Criar Registo
+          </Link>
           <Link to="/registos" className="[&.active]:font-bold p-2 ">
             Registos
           </Link>

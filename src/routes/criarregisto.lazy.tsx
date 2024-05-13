@@ -1,10 +1,10 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 
-export const Route = createLazyFileRoute('/registos')({
-  component: Registos,
+export const Route = createLazyFileRoute('/criarregisto')({
+  component: CriarRegisto,
 });
 
-function Registos() {
+function CriarRegisto() {
   return (
     <div className="flex bg-background text-white">
       {/* Barra Esquerda Lateral */}

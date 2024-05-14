@@ -1,7 +1,4 @@
-import {
-  createLazyFileRoute,
-  useNavigate,
-} from '@tanstack/react-router';
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,7 +33,7 @@ function Login() {
           });
           setTimeout(() => {
             navigate({
-              to: '/registos',
+              to: '/criarregistos',
             });
           }, 1500);
         }

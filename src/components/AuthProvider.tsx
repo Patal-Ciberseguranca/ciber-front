@@ -88,6 +88,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setToken('');
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('key');
   };
 
   return (

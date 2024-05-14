@@ -13,7 +13,7 @@ const AuthContext = createContext({
           username,
           password,
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           const { data } = response;
           if (data.token) {
             resolve(true); // Resolve with true if authentication is successful
@@ -28,7 +28,7 @@ const AuthContext = createContext({
             reject('Resposta do servidor inesperada.');
           }
         })
-        .catch((error) => {
+        .catch((error: any) => {
           // Handle any errors that occur during the axios request itself
           console.error(error);
           reject(error);
@@ -56,11 +56,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           username,
           password,
         })
-        .then((response) => {
+        .then((response: { data: any }) => {
           const { data } = response;
           if (data.token) {
             const token = data.token;
-            const key = data.hashedKey;
+            const key = data.key;
             setToken(token);
             localStorage.setItem('token', token);
             localStorage.setItem('key', key);
@@ -75,7 +75,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             resolve(false);
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.error(err);
           reject(err);
         });

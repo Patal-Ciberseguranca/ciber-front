@@ -1,15 +1,64 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
-import { BsFillCameraVideoFill } from 'react-icons/bs';
-import { IoMdPersonAdd } from 'react-icons/io';
-import { IoIosMore } from 'react-icons/io';
-import { GoPaperclip } from 'react-icons/go';
-import { CiImageOn } from 'react-icons/ci';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 export const Route = createLazyFileRoute('/registos')({
   component: Messages,
 });
 
-function Messages() {
+function Registos() {
+  const navigate = useNavigate();
+  const context = Route.useRouteContext();
+  const [textoRegistro, setTextoRegistro] = useState('');
+  const [tipoCifra, setTipoCifra] = useState('AES-128-CBC');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // Obter a chave de cifra do localStorage
+    const chaveCifra = localStorage.getItem('key');
+
+    // Cifrar o texto do registro usando AES-128-CBC
+    const textoCifrado = CryptoJS.AES.encrypt(
+      textoRegistro,
+      chaveCifra,
+    ).toString();
+
+    try {
+      // Enviar o texto cifrado para o backend
+      const response = await axios.post('http://localhost:3000/registos', {
+        textoCifrado
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error('Erro ao enviar registro cifrado:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!context.auth.isAuthenticated) {
+      toast.error('Tens de Iniciar Sessão Primeiro!', {
+        position: 'bottom-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
+      });
+      setTimeout(() => {
+        navigate({
+          to: '/login',
+        });
+      }, 1500);
+    }
+  });
+
   return (
     <div className="h-screen bg-background text-white flex justify-center items-center ">
       {/* Container */}
@@ -21,17 +70,23 @@ function Messages() {
             {/* Logo */}
             <span className="font-bold">CANTTOUCHME</span>
 
-            {/* User */}
-            <div>
-              {/* Imagem do Utilizador */}
-              <img
-                src=""
-                className="bg-white h-6 w-6 rounded-xl object-cover"
-              />
-
-              {/* Nome do Utilizador */}
-              <span>Utilizador Logado</span>
-            </div>
+        {/* Formulário para inserir registro e selecionar opções de cifra */}
+        <form
+          action="#"
+          method="post"
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          onSubmit={handleSubmit}
+        >
+          {/* Campo para inserir o texto do registro */}
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Texto do Registro:
+            </label>
+            <textarea
+              onChange={(e) => setTextoRegistro(e.target.value)}
+              className="w-full h-24 px-3 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+              placeholder="Insira o texto do registro aqui..."
+            ></textarea>
           </div>
 
           {/* Barra de Pesquisa */}
@@ -90,37 +145,19 @@ function Messages() {
             </div>
           </div>
 
-          {/* Mensagens */}
-          <div className="bg-gray-250 p-3 text-black h-full mb-[-95px] overflow-scroll">
-            {/* Mensagem Nº1 */}
-            <div className="flex gap-5 mb-5">
-              {/* Informação da Mensagem (Tempo da Mensagem e Imagem do Utilizador) */}
-              <div className="flex flex-col text-gray-200 font-light">
-                <img src="" className="w-10 h-10 rounded-xl object-cover" />
-                <span>Agora Mesmo</span>
-              </div>
-
-              {/* Contéudo da Mensagem Enviada */}
-              <div className="max-w-[4/5] flex flex-col gap-3">
-                <p className="bg-white p-3 rounded">teste mensagem</p>
-                <img src="" className="" />
-              </div>
-            </div>
-
-            {/* Mensagem Nº2 */}
-            <div className="flex gap-5 mb-5">
-              {/* Informação da Mensagem (Tempo da Mensagem e Imagem do Utilizador) */}
-              <div className="flex flex-col text-gray-200 font-light">
-                <img src="" className="w-10 h-10 rounded-xl object-cover" />
-                <span>Agora Mesmo</span>
-              </div>
-
-              {/* Contéudo da Mensagem Enviada */}
-              <div className="max-w-[4/5] flex flex-col gap-3">
-                <p className="bg-white p-3 rounded">teste mensagem 2</p>
-                <img src="" className="" />
-              </div>
-            </div>
+          {/* Seleção do tipo de cifra */}
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Tipo de Cifra:
+            </label>
+            <select
+              value={tipoCifra}
+              onChange={(e) => setTipoCifra(e.target.value)}
+              className="w-full px-3 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            >
+              <option value="AES-128-CBC">AES-128-CBC</option>
+              {/* Adicione mais opções de cifra aqui, se necessário */}
+            </select>
           </div>
 
           {/* Input de Texto e Anexo de Imagens */}

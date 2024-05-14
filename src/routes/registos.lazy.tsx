@@ -1,5 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { useAuth } from '@/components/AuthProvider';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from 'react';
@@ -45,6 +44,7 @@ function Registos() {
           action="#"
           method="post"
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+
         >
           {/* Campo para inserir o texto do registro */}
           <div className="mb-4">

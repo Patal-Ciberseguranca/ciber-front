@@ -59,65 +59,6 @@ function Login() {
       });
   }
 
-  /* const TryLogin = async () => {
-    if (username == '' || password == '') {
-      toast.error('Some Fields are in Fault', {
-        position: 'bottom-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: 'dark',
-      });
-      return false;
-    }
-    TO-DO LOGIN API 
-    const resolveAfter3Sec = new Promise((resolve) =>
-      setTimeout(resolve, 3000),
-    );
-    resolveAfter3Sec
-      .then(() => {
-        toast.success('Credentials Approved!', {
-          position: 'bottom-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: 'dark',
-        });
-        setTimeout(() => {
-          navigate({ to: '/account' });
-        }, 1000);
-      })
-      .catch(() => {
-        toast.error('Credentials Incorrect.', {
-          position: 'bottom-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          progress: undefined,
-          theme: 'dark',
-        });
-      });
-    toast.info('Checking User Data...', {
-      position: 'bottom-center',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: 'dark',
-    });
-    return true;
-  }; */
-
   return (
     <div className="flex items-center justify-center h-[calc(100vh-120px)]">
       <ToastContainer /> {/* centrar corretamente devido a navbar */}

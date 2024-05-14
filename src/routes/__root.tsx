@@ -33,8 +33,10 @@ const Root = (): React.ReactNode => {
       progress: undefined,
       theme: 'dark',
     });
-    user.logOut(); 
-    setTimeout(() => {navigate({ to: '/' }); }, 1000);
+    user.logOut();
+    setTimeout(() => {
+      navigate({ to: '/' });
+    }, 1000);
   };
 
   return (
@@ -48,18 +50,27 @@ const Root = (): React.ReactNode => {
             About
           </Link>
           {context.auth.isAuthenticated ? (
-            <><Link to="/messages2" className="[&.active]:font-bold p-2 ">
-              Messages2
-            </Link>
-            <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
-              Criar Registo
-            </Link>
-            <Link to="/registos" className="[&.active]:font-bold p-2 ">
-              Registos
-            </Link>
-            <Link onClick={() => { doUserLogout() }}>Logout</Link>
+            <>
+              <Link to="/messages2" className="[&.active]:font-bold p-2 ">
+                Messages2
+              </Link>
+              <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
+                Criar Registo
+              </Link>
+              <Link to="/registos" className="[&.active]:font-bold p-2 ">
+                Registos
+              </Link>
+              <Link
+                onClick={() => {
+                  doUserLogout();
+                }}
+              >
+                Logout
+              </Link>
             </>
-          ) : <></>}
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <hr />

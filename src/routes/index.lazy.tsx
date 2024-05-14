@@ -1,4 +1,9 @@
-import { createFileRoute, redirect, useNavigate, Link } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  redirect,
+  useNavigate,
+  Link,
+} from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,7 +13,7 @@ export const Route = createFileRoute('/')({
 });
 
 function Choose() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const context = Route.useRouteContext();
 
   useEffect(() => {
@@ -29,7 +34,7 @@ function Choose() {
         });
       }, 1500);
     }
-  })
+  });
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-120px)]">

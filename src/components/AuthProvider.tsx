@@ -60,8 +60,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           const { data } = response;
           if (data.token) {
             const token = data.token;
+            const key = data.hashedKey;
             setToken(token);
             localStorage.setItem('token', token);
+            localStorage.setItem('key', key);
             localStorage.setItem('isAuthenticated', 'true');
             setIsAuthenticated(true);
             resolve(true);

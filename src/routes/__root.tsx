@@ -51,9 +51,6 @@ const Root = (): React.ReactNode => {
           </Link>
           {context.auth.isAuthenticated ? (
             <>
-              <Link to="/messages2" className="[&.active]:font-bold p-2 ">
-                Messages2
-              </Link>
               <Link to="/criarregisto" className="[&.active]:font-bold p-2 ">
                 Criar Registo
               </Link>

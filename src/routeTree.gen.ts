@@ -17,7 +17,6 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const RegistosLazyImport = createFileRoute('/registos')()
-const Messages2LazyImport = createFileRoute('/messages2')()
 const CriarregistoLazyImport = createFileRoute('/criarregisto')()
 const ApiLazyImport = createFileRoute('/api')()
 const AboutLazyImport = createFileRoute('/about')()
@@ -31,11 +30,6 @@ const RegistosLazyRoute = RegistosLazyImport.update({
   path: '/registos',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/registos.lazy').then((d) => d.Route))
-
-const Messages2LazyRoute = Messages2LazyImport.update({
-  path: '/messages2',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/messages2.lazy').then((d) => d.Route))
 
 const CriarregistoLazyRoute = CriarregistoLazyImport.update({
   path: '/criarregisto',
@@ -89,10 +83,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CriarregistoLazyImport
       parentRoute: typeof rootRoute
     }
-    '/messages2': {
-      preLoaderRoute: typeof Messages2LazyImport
-      parentRoute: typeof rootRoute
-    }
     '/registos': {
       preLoaderRoute: typeof RegistosLazyImport
       parentRoute: typeof rootRoute
@@ -115,7 +105,6 @@ export const routeTree = rootRoute.addChildren([
   AboutLazyRoute,
   ApiLazyRoute,
   CriarregistoLazyRoute,
-  Messages2LazyRoute,
   RegistosLazyRoute,
   LoginIndexLazyRoute,
   RegisterIndexLazyRoute,

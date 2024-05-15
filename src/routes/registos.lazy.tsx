@@ -4,8 +4,7 @@ import { IoMdPersonAdd } from 'react-icons/io';
 import { IoIosMore } from 'react-icons/io';
 import { GoPaperclip } from 'react-icons/go';
 import { CiImageOn } from 'react-icons/ci'; */
-import { IoIosSave } from "react-icons/io";
-
+import { IoIosSave } from 'react-icons/io';
 
 export const Route = createLazyFileRoute('/registos')({
   component: Registos,
@@ -23,7 +22,6 @@ function Registos() {
             {/* Logo */}
             <span className="font-bold">CANTTOUCHME</span>
 
-
             {/* User */}
             <div>
               {/* Imagem do Utilizador */}
@@ -40,7 +38,6 @@ function Registos() {
           {/* Barra de Pesquisa */}
           <div className="border-b-2 border-style: solid">
             {/* Pesquisar */}
-          
 
             {/* Outras Contas de Utilizadores 1 */}
             <div className="p-3 flex items-center gap-2.5 cursor-pointer hover:bg-gray-800">
@@ -82,13 +79,14 @@ function Registos() {
               <IoMdPersonAdd className="cursor-pointer h-6" /> 
               <IoIosMore className="cursor-pointer h-6" /> */}
               <IoIosSave className="cursor-pointer h-10 w-10" />
-
             </div>
           </div>
 
-          <textarea name="" id=""className='w-[80%] h-[75%] p-3 text-black rounded-md ml-[10%] mt-[6%]'>
-            
-          </textarea>
+          <textarea
+            name=""
+            id=""
+            className="w-[80%] h-[75%] p-3 text-black rounded-md ml-[10%] mt-[6%]"
+          ></textarea>
 
           {/* Mensagens */}
 
@@ -146,6 +144,5 @@ function Registos() {
         </div>
       </div>
     </div>
-    
   );
 }

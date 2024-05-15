@@ -12,30 +12,52 @@ export const Route = createLazyFileRoute('/criarregisto')({
 function CriarRegistos() {
   const navigate = useNavigate();
   const context = Route.useRouteContext();
+  const [isHovered, setIsHovered] = useState(false);
   const [textoRegistro, setTextoRegistro] = useState('');
   const [tipoCifra, setTipoCifra] = useState('AES-128-CBC');
+  // Obter a chave de cifra e o username do localStorage
+  const chaveCifra = localStorage.getItem('key');
+  const username = localStorage.getItem('username');
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Obter a chave de cifra do localStorage
-    const chaveCifra = localStorage.getItem('key');
-
-    // Cifrar o texto do registro usando AES-128-CBC
-    const textoCifrado = CryptoJS.AES.encrypt(
-      textoRegistro,
-      chaveCifra,
-    ).toString();
-
-    try {
-      // Enviar o texto cifrado para o backend
-      const response = await axios.post('http://localhost:3000/registos', {
-        textoCifrado,
+    if (textoRegistro.length==0) {
+      toast.error('O Registo Deve Conter Algo!', {
+        position: 'bottom-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
       });
+      setTimeout(() => {
+        return;
+      }, 1500);
+    } else {
 
-      console.log(response.data);
-    } catch (error) {
-      console.error('Erro ao enviar registro cifrado:', error);
+      // Cifrar o texto do registro usando AES-128-CBC
+      const textoCifrado = CryptoJS.AES.encrypt(
+        textoRegistro,
+        chaveCifra,
+      ).toString();
+
+      try {
+        // Enviar o texto cifrado para o backend
+        const response = await axios.post('http://localhost:3000/registos', {
+          username,
+          textoCifrado,
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.error('Erro ao enviar registro cifrado:', error);
+      }
     }
   };
 
@@ -87,9 +109,21 @@ function CriarRegistos() {
 
           {/* Selecionar Chave de Cifra */}
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Chave de Cifra:
-            </label>
+            <span className="text-gray-700 text-sm font-bold">
+              Chave de Cifra:&nbsp;
+              <label
+                className="text-gray-700 text-sm font-bold"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                style={{
+                  filter: isHovered ? 'none' : 'blur(5px)',
+                  transition: 'filter 0.5s',
+                  display: 'inline-block',
+                }}
+              >
+                {chaveCifra}
+              </label>
+            </span>
           </div>
 
           {/* Seleção do tipo de cifra */}

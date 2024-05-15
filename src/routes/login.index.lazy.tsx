@@ -33,7 +33,7 @@ function Login() {
           });
           setTimeout(() => {
             navigate({
-              to: '/criarregistos',
+              to: '/registos',
             });
           }, 1500);
         }

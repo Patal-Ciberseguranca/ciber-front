@@ -64,6 +64,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setToken(token);
             localStorage.setItem('token', token);
             localStorage.setItem('key', key);
+            localStorage.setItem('username', username.toString());
             localStorage.setItem('isAuthenticated', 'true');
             setIsAuthenticated(true);
             resolve(true);
@@ -89,6 +90,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('key');
+    localStorage.removeItem('username');
   };
 
   return (

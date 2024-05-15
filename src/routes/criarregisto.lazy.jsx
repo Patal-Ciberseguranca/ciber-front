@@ -53,7 +53,16 @@ function CriarRegistos() {
           username,
           textoCifrado,
         });
-
+        toast.success('Registo Guardado com Sucesso!', {
+          position: 'bottom-center',
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+          theme: 'dark',
+        });
         console.log(response.data);
       } catch (error) {
         console.error('Erro ao enviar registro cifrado:', error);

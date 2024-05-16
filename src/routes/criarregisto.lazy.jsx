@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import { fromByteArray, toByteArray } from 'base64-js';
 
 export const Route = createLazyFileRoute('/criarregisto')({
   component: CriarRegistos,
@@ -21,6 +22,20 @@ function CriarRegistos() {
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
+
+  const HMAC = async (message, key) => {
+    function signString(message, key) {
+      return CryptoJS.HmacSHA512(message, key).toString(CryptoJS.enc.Base64);
+    }
+
+    const json_payLoad = JSON.stringify(message);
+    const signature = signString(json_payLoad, key);
+
+    const textoCifrado = fromByteArray(new TextEncoder().encode(json_payLoad));
+    const HMACmsg = fromByteArray(toByteArray(signature));
+
+    return { textoCifrado, HMACmsg };
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,16 +56,15 @@ function CriarRegistos() {
       }, 1500);
     } else {
       // Cifrar o texto do registro usando AES-128-CBC
-      const textoCifrado = CryptoJS.AES.encrypt(
-        textoRegistro,
-        chaveCifra,
-      ).toString();
+      const { textoCifrado, HMACmsg } = await HMAC(CryptoJS.AES.encrypt(textoRegistro, chaveCifra).toString(), chaveCifra);
+      console.log(textoCifrado, HMACmsg);
 
       try {
         // Enviar o texto cifrado para o backend
         const response = await axios.post('http://localhost:3000/registos', {
           username,
           textoCifrado,
+          HMACmsg,
         });
         toast.success('Registo Guardado com Sucesso!', {
           position: 'bottom-center',

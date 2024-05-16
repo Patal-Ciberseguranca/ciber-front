@@ -68,51 +68,30 @@ const LoginIndexLazyRoute = LoginIndexLazyImport.update({
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
     '/api': {
-      id: '/api'
-      path: '/api'
-      fullPath: '/api'
       preLoaderRoute: typeof ApiLazyImport
       parentRoute: typeof rootRoute
     }
     '/criarregisto': {
-      id: '/criarregisto'
-      path: '/criarregisto'
-      fullPath: '/criarregisto'
       preLoaderRoute: typeof CriarregistoLazyImport
       parentRoute: typeof rootRoute
     }
     '/registos': {
-      id: '/registos'
-      path: '/registos'
-      fullPath: '/registos'
       preLoaderRoute: typeof RegistosLazyImport
       parentRoute: typeof rootRoute
     }
     '/login/': {
-      id: '/login/'
-      path: '/login/'
-      fullPath: '/login/'
       preLoaderRoute: typeof LoginIndexLazyImport
       parentRoute: typeof rootRoute
     }
     '/register/': {
-      id: '/register/'
-      path: '/register/'
-      fullPath: '/register/'
       preLoaderRoute: typeof RegisterIndexLazyImport
       parentRoute: typeof rootRoute
     }
@@ -121,7 +100,7 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
+export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AboutLazyRoute,
   ApiLazyRoute,
@@ -129,6 +108,6 @@ export const routeTree = rootRoute.addChildren({
   RegistosLazyRoute,
   LoginIndexLazyRoute,
   RegisterIndexLazyRoute,
-})
+])
 
 /* prettier-ignore-end */

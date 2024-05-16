@@ -25,7 +25,7 @@ function CriarRegistos() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (textoRegistro.length==0) {
+    if (textoRegistro.length == 0) {
       toast.error('O Registo Deve Conter Algo!', {
         position: 'bottom-center',
         autoClose: 1500,
@@ -40,7 +40,6 @@ function CriarRegistos() {
         return;
       }, 1500);
     } else {
-
       // Cifrar o texto do registro usando AES-128-CBC
       const textoCifrado = CryptoJS.AES.encrypt(
         textoRegistro,

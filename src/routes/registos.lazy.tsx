@@ -29,12 +29,11 @@ function Registos() {
       console.error('Chave de cifra not found in localStorage');
       return 'Chave de cifra not found';
     }
-
     const jsonPayload = JSON.stringify(registo);
     const encodedPayload = new TextEncoder().encode(jsonPayload);
     const wordArray = CryptoJS.lib.WordArray.create(encodedPayload);
     const computedHMAC = CryptoJS.HmacSHA512(wordArray, chaveCifra).toString(CryptoJS.enc.Base64);
-
+    
     if (computedHMAC === registo.hmac) {
       return 'Integrity verified';
     } else {

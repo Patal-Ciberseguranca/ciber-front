@@ -1,11 +1,75 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { IoIosSave } from 'react-icons/io';
+import axios from 'axios';
+import CryptoJS from 'crypto-js';
+/* import { fromByteArray, toByteArray } from 'base64-js'; */
+
 
 export const Route = createLazyFileRoute('/registos')({
   component: Registos,
 });
 
+interface Registo {
+  date: string;
+  username: string;
+  registo: string;
+  hmac: string;
+}
+
 function Registos() {
+
+  //Obter a key da pessoa através do LocalStorage
+  const chaveCifra = localStorage.getItem('key');
+
+  //HELP WITH THIS PLS
+  //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
+  //HELP WITH THIS PLS
+  const compareHMAC = (registo: Registo) => {
+    if (!chaveCifra) {
+      console.error('Chave de cifra not found in localStorage');
+      return 'Chave de cifra not found';
+    }
+
+    const jsonPayload = JSON.stringify(registo);
+    const encodedPayload = new TextEncoder().encode(jsonPayload);
+    const wordArray = CryptoJS.lib.WordArray.create(encodedPayload);
+    const computedHMAC = CryptoJS.HmacSHA512(wordArray, chaveCifra).toString(CryptoJS.enc.Base64);
+
+    if (computedHMAC === registo.hmac) {
+      return 'Integrity verified';
+    } else {
+      return {
+        message: 'Integrity compromised',
+        computedHMAC: computedHMAC,
+        registoHMAC: registo.hmac
+    };
+    }
+  };
+
+  const handleClick = async () => {
+    try {
+      //Ir buscar o username ao LocalStorage
+      const username = localStorage.getItem('username'); 
+      //ir a Index.js no ciber-back
+      const response = await axios.get(`http://localhost:3000/registos/${username}`);
+    
+      //Log dos resgistos, meio obvio
+      console.log('Registos:', response.data.registos);
+      
+      //Isto faz com que a "responseDataArray" fique uma array de Registos
+      const responseDataArray = response.data.registos as Registo[];
+  
+      //Para cada registo no array ele dá log desse registo específico e do resultado do HMAC
+      responseDataArray.forEach(registo => {
+        console.log('Registo:', registo);
+        const result = compareHMAC(registo);
+        console.log(result);  
+      });
+      
+    } catch (error) {
+      console.error('Error fetching registos:', error);
+    }
+  };
   return (
     <div className="h-[92%] bg-background text-white flex justify-center items-center ">
       {/* Container */}
@@ -26,10 +90,13 @@ function Registos() {
               />
 
               {/* User */}
+
+              //ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC VER LINHA 47
+              <button onClick={handleClick} className=' border-3 border-secondary p-3  rounded-md bg-white'>olaaa</button>
+              //ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC VER LINHA 47
+              
               <div>
                 {/* Imagem do Utilizador */}
-              
-
                 {/* Nome do Utilizador */}
                 <span>O Utilizador "meter nome user" está logado</span>
               </div>

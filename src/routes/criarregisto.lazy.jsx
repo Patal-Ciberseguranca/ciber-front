@@ -54,8 +54,7 @@ function CriarRegistos() {
       // Cifrar o texto do registro usando AES-128-CBC
       const iv = CryptoJS.lib.WordArray.random(8).toString();
       const textoCifrado = await CryptoJS.AES.encrypt(textoRegistro, chaveCifra, {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
+        mode: CryptoJS.mode.CBC
       }).toString();
       console.log(textoCifrado);
       const HMACmsg = await HMAC(

@@ -13,7 +13,9 @@ interface Registo {
   username: string;
   registo: string;
   hmac: string;
+  iv: string;
 }
+
 
 function Registos() {
   //Obter a key da pessoa através do LocalStorage
@@ -27,33 +29,18 @@ function Registos() {
       console.error('Chave de cifra not found in localStorage');
       return 'Chave de cifra not found';
     }
-    console.log("Registo: "+registo.registo);
-    const ciphertext = new TextDecoder().decode(toByteArray(registo.registo));
-    const textoDecifrado = CryptoJS.AES.decrypt(
-        {
-          ciphertext: ciphertext
-        },
-        chaveCifra,
-        {
-            iv: 0,
-            mode: CryptoJS.mode.CBC
-        }
-    );
-
-    const finalText = textoDecifrado.toString();
-    console.log("Registo Decifrado: " + finalText);
-    const computedHMAC = CryptoJS.HmacSHA512(textoDecifrado, chaveCifra).toString(
-      CryptoJS.enc.Base64,
-    );
-
+    console.log('Registo: ' + registo.registo);
+    const json_payLoad = JSON.stringify(registo.registo);
+    const signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(CryptoJS.enc.Base64);
+    const computedHMAC = fromByteArray(toByteArray(signature));
     console.log('ComputedMAC: ' + computedHMAC);
     console.log('Registo HMAC: ' + registo.hmac);
     console.log(computedHMAC === registo.hmac);
 
-    const hmacRegisto = fromByteArray(toByteArray(registo.hmac));
-    console.log('Registo HMAC: ' + hmacRegisto);
-
     if (computedHMAC === registo.hmac) {
+      const textoDecifrado = CryptoJS.AES.decrypt(registo.registo, chaveCifra, { iv: registo.iv, mode: CryptoJS.mode.CBC });
+      const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
+      console.log('Registo Decifrado: ' + finalText);
       console.log('Verified');
       return 'Integrity verified';
     } else {

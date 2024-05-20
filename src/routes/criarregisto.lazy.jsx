@@ -27,15 +27,10 @@ function CriarRegistos() {
     function signString(message, key) {
       return CryptoJS.HmacSHA512(message, key).toString(CryptoJS.enc.Base64);
     }
-
     const json_payLoad = JSON.stringify(message);
     const signature = signString(json_payLoad, key);
-
-    const textoCifrado = fromByteArray(new TextEncoder().encode(json_payLoad));
     const HMACmsg = fromByteArray(toByteArray(signature));
-
-    console.log(textoCifrado, HMACmsg);
-    return { textoCifrado, HMACmsg };
+    return HMACmsg;
   };
 
   const handleSubmit = async (event) => {
@@ -57,8 +52,14 @@ function CriarRegistos() {
       }, 1500);
     } else {
       // Cifrar o texto do registro usando AES-128-CBC
-      const { textoCifrado, HMACmsg } = await HMAC(
-        CryptoJS.AES.encrypt(textoRegistro, chaveCifra, { iv: 0, mode: CryptoJS.mode.CBC }).toString(),
+      const iv = CryptoJS.lib.WordArray.random(8).toString();
+      const textoCifrado = await CryptoJS.AES.encrypt(textoRegistro, chaveCifra, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+      }).toString();
+      console.log(textoCifrado);
+      const HMACmsg = await HMAC(
+        textoCifrado,
         chaveCifra,
       );
       console.log(textoCifrado, HMACmsg);
@@ -69,6 +70,7 @@ function CriarRegistos() {
           username,
           textoCifrado,
           HMACmsg,
+          iv,
         });
         toast.success('Registo Guardado com Sucesso!', {
           position: 'bottom-center',

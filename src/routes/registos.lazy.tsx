@@ -28,7 +28,7 @@ function Registos() {
       return 'Chave de cifra not found';
     }
     console.log("Registo: "+registo.registo);
-    const ciphertext = CryptoJS.lib.WordArray.create(toByteArray(registo.registo));
+    const ciphertext = new TextDecoder().decode(toByteArray(registo.registo));
     const textoDecifrado = CryptoJS.AES.decrypt(
         {
           ciphertext: ciphertext
@@ -40,7 +40,7 @@ function Registos() {
         }
     );
 
-    const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
+    const finalText = textoDecifrado.toString();
     console.log("Registo Decifrado: " + finalText);
     const computedHMAC = CryptoJS.HmacSHA512(textoDecifrado, chaveCifra).toString(
       CryptoJS.enc.Base64,

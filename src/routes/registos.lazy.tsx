@@ -13,7 +13,6 @@ interface Registo {
   username: string;
   registo: string;
   hmac: string;
-  iv: string;
 }
 
 

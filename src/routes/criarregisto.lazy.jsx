@@ -52,7 +52,6 @@ function CriarRegistos() {
       }, 1500);
     } else {
       // Cifrar o texto do registro usando AES-128-CBC
-      const iv = CryptoJS.lib.WordArray.random(8).toString();
       const textoCifrado = await CryptoJS.AES.encrypt(textoRegistro, chaveCifra, {
         mode: CryptoJS.mode.CBC
       }).toString();
@@ -68,8 +67,7 @@ function CriarRegistos() {
         const response = await axios.post('http://localhost:3000/registos', {
           username,
           textoCifrado,
-          HMACmsg,
-          iv,
+          HMACmsg
         });
         toast.success('Registo Guardado com Sucesso!', {
           position: 'bottom-center',

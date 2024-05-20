@@ -2,7 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router';
 import { IoIosSave } from 'react-icons/io';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
-/* import { fromByteArray, toByteArray } from 'base64-js'; */
+import { fromByteArray, toByteArray } from 'base64-js';
 
 export const Route = createLazyFileRoute('/registos')({
   component: Registos,
@@ -19,7 +19,6 @@ function Registos() {
   //Obter a key da pessoa através do LocalStorage
   const chaveCifra = localStorage.getItem('key');
 
-
   //HELP WITH THIS PLS
   //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
   //HELP WITH THIS PLS
@@ -28,18 +27,37 @@ function Registos() {
       console.error('Chave de cifra not found in localStorage');
       return 'Chave de cifra not found';
     }
-    const jsonPayload = JSON.stringify(registo);
-    const encodedPayload = new TextEncoder().encode(jsonPayload);
-    const wordArray = CryptoJS.lib.WordArray.create(encodedPayload);
-    const computedHMAC = CryptoJS.HmacSHA512(wordArray, chaveCifra).toString(
+    console.log("Registo: "+registo.registo);
+    const ciphertext = CryptoJS.lib.WordArray.create(toByteArray(registo.registo));
+    const textoDecifrado = CryptoJS.AES.decrypt(
+        {
+          ciphertext: ciphertext
+        },
+        chaveCifra,
+        {
+            iv: 0,
+            mode: CryptoJS.mode.CBC
+        }
+    );
+
+    const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
+    console.log("Registo Decifrado: " + finalText);
+    const computedHMAC = CryptoJS.HmacSHA512(textoDecifrado, chaveCifra).toString(
       CryptoJS.enc.Base64,
     );
 
-    console.log(registo)
+    console.log('ComputedMAC: ' + computedHMAC);
+    console.log('Registo HMAC: ' + registo.hmac);
+    console.log(computedHMAC === registo.hmac);
+
+    const hmacRegisto = fromByteArray(toByteArray(registo.hmac));
+    console.log('Registo HMAC: ' + hmacRegisto);
 
     if (computedHMAC === registo.hmac) {
+      console.log('Verified');
       return 'Integrity verified';
     } else {
+      console.log('Not Verified');
       return {
         message: 'Integrity compromised',
         computedHMAC: computedHMAC,
@@ -50,7 +68,6 @@ function Registos() {
 
   const handleClick = async () => {
     try {
-
       //Ir buscar o username ao LocalStorage
       const username = localStorage.getItem('username');
       //ir a Index.js no ciber-back

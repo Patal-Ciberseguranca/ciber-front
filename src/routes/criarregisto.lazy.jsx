@@ -34,7 +34,7 @@ function CriarRegistos() {
     const textoCifrado = fromByteArray(new TextEncoder().encode(json_payLoad));
     const HMACmsg = fromByteArray(toByteArray(signature));
 
-    console.log(textoCifrado, HMACmsg)
+    console.log(textoCifrado, HMACmsg);
     return { textoCifrado, HMACmsg };
   };
 
@@ -58,7 +58,7 @@ function CriarRegistos() {
     } else {
       // Cifrar o texto do registro usando AES-128-CBC
       const { textoCifrado, HMACmsg } = await HMAC(
-        CryptoJS.AES.encrypt(textoRegistro, chaveCifra).toString(),
+        CryptoJS.AES.encrypt(textoRegistro, chaveCifra, { iv: 0, mode: CryptoJS.mode.CBC }).toString(),
         chaveCifra,
       );
       console.log(textoCifrado, HMACmsg);

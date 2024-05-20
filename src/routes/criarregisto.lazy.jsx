@@ -34,6 +34,7 @@ function CriarRegistos() {
     const textoCifrado = fromByteArray(new TextEncoder().encode(json_payLoad));
     const HMACmsg = fromByteArray(toByteArray(signature));
 
+    console.log(textoCifrado, HMACmsg)
     return { textoCifrado, HMACmsg };
   };
 

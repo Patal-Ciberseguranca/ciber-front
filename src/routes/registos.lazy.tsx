@@ -4,7 +4,6 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 /* import { fromByteArray, toByteArray } from 'base64-js'; */
 
-
 export const Route = createLazyFileRoute('/registos')({
   component: Registos,
 });
@@ -17,9 +16,9 @@ interface Registo {
 }
 
 function Registos() {
-
   //Obter a key da pessoa através do LocalStorage
   const chaveCifra = localStorage.getItem('key');
+
 
   //HELP WITH THIS PLS
   //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
@@ -32,39 +31,45 @@ function Registos() {
     const jsonPayload = JSON.stringify(registo);
     const encodedPayload = new TextEncoder().encode(jsonPayload);
     const wordArray = CryptoJS.lib.WordArray.create(encodedPayload);
-    const computedHMAC = CryptoJS.HmacSHA512(wordArray, chaveCifra).toString(CryptoJS.enc.Base64);
-    
+    const computedHMAC = CryptoJS.HmacSHA512(wordArray, chaveCifra).toString(
+      CryptoJS.enc.Base64,
+    );
+
+    console.log(registo)
+
     if (computedHMAC === registo.hmac) {
       return 'Integrity verified';
     } else {
       return {
         message: 'Integrity compromised',
         computedHMAC: computedHMAC,
-        registoHMAC: registo.hmac
-    };
+        registoHMAC: registo.hmac,
+      };
     }
   };
 
   const handleClick = async () => {
     try {
+
       //Ir buscar o username ao LocalStorage
-      const username = localStorage.getItem('username'); 
+      const username = localStorage.getItem('username');
       //ir a Index.js no ciber-back
-      const response = await axios.get(`http://localhost:3000/registos/${username}`);
-    
+      const response = await axios.get(
+        `http://localhost:3000/registos/${username}`,
+      );
+
       //Log dos resgistos, meio obvio
       console.log('Registos:', response.data.registos);
-      
+
       //Isto faz com que a "responseDataArray" fique uma array de Registos
       const responseDataArray = response.data.registos as Registo[];
-  
+
       //Para cada registo no array ele dá log desse registo específico e do resultado do HMAC
-      responseDataArray.forEach(registo => {
+      responseDataArray.forEach((registo) => {
         console.log('Registo:', registo);
         const result = compareHMAC(registo);
-        console.log(result);  
+        console.log(result);
       });
-      
     } catch (error) {
       console.error('Error fetching registos:', error);
     }
@@ -80,20 +85,23 @@ function Registos() {
             <div className="flex items-center bg-gray-800 h-20 p-3 justify-between">
               {/* Logo */}
               <span className="font-bold">CANTTOUCHME</span>
-
               <input
                 type="date"
                 name=""
                 id=""
                 className="text-black justify-center bg-secondary"
               />
-
               {/* User */}
-
-              //ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC VER LINHA 47
-              <button onClick={handleClick} className=' border-3 border-secondary p-3  rounded-md bg-white'>olaaa</button>
-              //ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC VER LINHA 47
-              
+              {/*ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC
+              VER LINHA 47*/}
+              <button
+                onClick={handleClick}
+                className=" border-3 border-secondary p-3  rounded-md bg-white"
+              >
+                olaaa
+              </button>
+              {/*ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC
+              VER LINHA 47*/}
               <div>
                 {/* Imagem do Utilizador */}
                 {/* Nome do Utilizador */}

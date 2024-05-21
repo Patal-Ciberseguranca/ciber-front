@@ -23,7 +23,7 @@ function Registos() {
   //HELP WITH THIS PLS
   //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
   //HELP WITH THIS PLS
-  const compareHMAC = (registo: Registo) => {
+  const compareHMAC_CBC = (registo: Registo) => {
     if (!chaveCifra) {
       console.error('Chave de cifra not found in localStorage');
       return 'Chave de cifra not found';
@@ -70,7 +70,7 @@ function Registos() {
       //Para cada registo no array ele dá log desse registo específico e do resultado do HMAC
       responseDataArray.forEach((registo) => {
         console.log('Registo:', registo);
-        const result = compareHMAC(registo);
+        const result = compareHMAC_CBC(registo);
         console.log(result);
       });
     } catch (error) {

@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
 import { IoIosSave } from 'react-icons/io';
+import { useState } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { fromByteArray, toByteArray } from 'base64-js';
@@ -19,7 +20,7 @@ interface Registo {
 function Registos() {
   //Obter a key da pessoa através do LocalStorage
   const chaveCifra = localStorage.getItem('key');
-
+  const [registos, setRegistos] = useState<Registo[]>();
   const context = Route.useRouteContext();
 
   //HELP WITH THIS PLS
@@ -72,7 +73,7 @@ function Registos() {
 
       //Isto faz com que a "responseDataArray" fique uma array de Registos
       const responseDataArray = response.data.registos as Registo[];
-
+      setRegistos(responseDataArray);
       //Para cada registo no array ele dá log desse registo específico e do resultado do HMAC
       responseDataArray.forEach((registo) => {
         console.log('Registo:', registo);
@@ -137,15 +138,26 @@ function Registos() {
 
               {/* Outras Contas de Utilizadores 1 */}
               <div className="flex-1 overflow-y-auto">
-                {['10-05-2024', '13-05-2024'].map((date, index) => (
+                {registos && registos.map((registo, index) => (
                   <div
                     key={index}
                     className="p-3 w-[90%] mt-[5px] mx-auto flex items-center gap-2.5 cursor-pointer hover:bg-secondary hover:text-black rounded-md border border-solid border-blend"
                   >
                     <div>
-                      <span className="text-lg font-bold">{date}</span>
+                      <span className="text-lg font-bold">{registo.date}</span>
                       <p className="text-sm ">
-                        Começo na anotação do Utilizador
+                        {
+                          CryptoJS.AES.decrypt(
+                            registo.registo,
+                            localStorage.getItem('key') || '',
+                            {
+                              mode:
+                                context.auth.cipherMode == 'AES-128-CBC'
+                                  ? CryptoJS.mode.CBC
+                                  : CryptoJS.mode.CTR,
+                            },
+                          ).toString(CryptoJS.enc.Utf8)
+                        }
                       </p>
                     </div>
                   </div>

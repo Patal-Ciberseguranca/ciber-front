@@ -13,7 +13,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate({ from: '/register' });
-  const [tipoCifra, setTipoCifra] = useState('AES-128-CBC');
+  const [cipherMode, setCipherMode] = useState('AES-128-CBC');
 
   async function SubmitRegister(e) {
     e.preventDefault();
@@ -23,7 +23,7 @@ function Register() {
         username,
         email,
         password,
-        tipoCifra,
+        cipherMode,
       });
 
       const { data } = response;
@@ -167,8 +167,8 @@ function Register() {
                 <select
                   id="tipo-cifra"
                   name="tipo-cifra"
-                  value={tipoCifra}
-                  onChange={(e) => setTipoCifra(e.target.value)}
+                  value={cipherMode}
+                  onChange={(e) => setCipherMode(e.target.value)}
                   className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300"
                 >
                   <option value="AES-128-CBC">AES-128-CBC</option>

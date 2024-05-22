@@ -4,6 +4,7 @@ import axios from 'axios';
 const AuthContext = createContext({
   token: '',
   user: null,
+  cipherMode: 'AES-128-CBC',
   loginAction: (username: String, password: String): Promise<unknown> => {
     return new Promise((resolve, reject) => {
       // Perform login action
@@ -37,7 +38,6 @@ const AuthContext = createContext({
   },
   logOut: () => {},
   isAuthenticated: false,
-  cipherMode: 'AES-128-CBC',
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -47,8 +47,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.getItem('isAuthenticated') || 'false',
     ) as boolean) || false,
   );
-
   const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [cipherMode, setCipherMode] = useState('AES-128-CBC');
 
   const loginAction = async (username: String, password: String) => {
     return new Promise((resolve, reject) => {
@@ -95,8 +95,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('key');
     localStorage.removeItem('username');
   };
-
-  const [cipherMode, setCipherMode] = useState('AES-128-CBC')
 
   return (
     <AuthContext.Provider

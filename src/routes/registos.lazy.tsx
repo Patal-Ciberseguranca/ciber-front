@@ -20,6 +20,8 @@ function Registos() {
   //Obter a key da pessoa através do LocalStorage
   const chaveCifra = localStorage.getItem('key');
 
+  const context = Route.useRouteContext();
+
   //HELP WITH THIS PLS
   //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
   //HELP WITH THIS PLS
@@ -80,12 +82,12 @@ function Registos() {
           chaveCifra,
           {
             mode:
-              registo.cipherMode == 'AES-128-CBC'
+              context.auth.cipherMode == 'AES-128-CBC'
                 ? CryptoJS.mode.CBC
                 : CryptoJS.mode.CTR,
           },
         ).toString(CryptoJS.enc.Utf8);
-
+        console.log(context.auth.cipherMode)
         console.log('Registo clear text:', registo_clear);
         const result = compareHMAC_CBC(registo);
         console.log(result);

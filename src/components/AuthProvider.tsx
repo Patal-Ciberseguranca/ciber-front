@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const AuthContext = createContext({
   token: '',
-  user: null,
+  username: '',
   cipherMode: 'AES-128-CBC',
   loginAction: (username: String, password: String): Promise<unknown> => {
     return new Promise((resolve, reject) => {
@@ -41,7 +41,7 @@ const AuthContext = createContext({
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(
     (JSON.parse(
       localStorage.getItem('isAuthenticated') || 'false',
@@ -66,6 +66,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             localStorage.setItem('token', token);
             localStorage.setItem('key', key);
             localStorage.setItem('username', username.toString());
+            setUsername(username.toString());
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('cipherMode', data.cipherMode);
             setCipherMode(data.cipherMode);
@@ -87,7 +88,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logOut = () => {
-    setUser(null);
+    setUsername('');
     setIsAuthenticated(false);
     setToken('');
     localStorage.removeItem('token');
@@ -98,7 +99,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, user, loginAction, logOut, isAuthenticated, cipherMode }}
+      value={{
+        token,
+        username,
+        loginAction,
+        logOut,
+        isAuthenticated,
+        cipherMode,
+      }}
     >
       {children}
     </AuthContext.Provider>

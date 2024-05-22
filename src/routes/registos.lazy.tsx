@@ -87,7 +87,7 @@ function Registos() {
                 : CryptoJS.mode.CTR,
           },
         ).toString(CryptoJS.enc.Utf8);
-        console.log(context.auth.cipherMode)
+        console.log(context.auth.cipherMode);
         console.log('Registo clear text:', registo_clear);
         const result = compareHMAC_CBC(registo);
         console.log(result);
@@ -127,7 +127,7 @@ function Registos() {
               <div>
                 {/* Imagem do Utilizador */}
                 {/* Nome do Utilizador */}
-                <span>O Utilizador "meter nome user" está logado</span>
+                <span>O Utilizador {context.auth.username} está logado</span>
               </div>
             </div>
 

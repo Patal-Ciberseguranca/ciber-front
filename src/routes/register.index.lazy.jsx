@@ -125,7 +125,7 @@ function Register() {
                 type="text"
                 id="UserLogin"
                 placeholder="Username"
-                className="border-solid border-2 p-1 font-bold text-black"
+                className="border-solid border-2 p-2 font-bold text-black rounded-md bg-cinzento"
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
@@ -139,7 +139,7 @@ function Register() {
                 type="text"
                 id="EmailLogin"
                 placeholder="E-Mail"
-                className="border-solid border-2 p-1 font-bold text-black"
+                className="border-solid border-2 p-2 font-bold text-black rounded-md bg-cinzento"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -153,7 +153,7 @@ function Register() {
                 type="password"
                 id="PassLogin"
                 placeholder="Password"
-                className="border-solid border-2 p-1 font-bold text-black"
+                className="border-solid border-2 p-2 font-bold text-black rounded-md bg-cinzento"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
@@ -171,8 +171,18 @@ function Register() {
                   onChange={(e) => setCipherMode(e.target.value)}
                   className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300"
                 >
-                  <option value="AES-128-CBC">AES-128-CBC</option>
-                  <option value="AES-128-CTR">AES-128-CTR</option>
+                  <option
+                    value="AES-128-CBC"
+                    className="font-bold bg-secondary text-black"
+                  >
+                    AES-128-CBC
+                  </option>
+                  <option
+                    value="AES-128-CTR"
+                    className="font-bold bg-secondary text-black"
+                  >
+                    AES-128-CTR
+                  </option>
                   {/* Adicione mais opções de cifra aqui, se necessário */}
                 </select>
               </div>

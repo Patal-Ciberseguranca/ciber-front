@@ -109,9 +109,8 @@ function CriarRegistos() {
   });
 
   return (
-    <div className="flex bg-background text-white">
-      <ToastContainer />
-      {/* Barra Esquerda Lateral */}
+    <div className="flex bg-background text-black items-center justify-center h-[calc(100vh-120px)]">
+      <ToastContainer /> {/* centrar corretamente devido a navbar */}
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-semibold mb-4">Criar Registos</h1>
 

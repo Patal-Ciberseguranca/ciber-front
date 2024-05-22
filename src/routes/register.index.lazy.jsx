@@ -13,6 +13,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate({ from: '/register' });
+  const [tipoCifra, setTipoCifra] = useState('AES-128-CBC');
 
   async function SubmitRegister(e) {
     e.preventDefault();
@@ -22,6 +23,7 @@ function Register() {
         username,
         email,
         password,
+        tipoCifra,
       });
 
       const { data } = response;
@@ -33,6 +35,16 @@ function Register() {
       }
     } catch (e) {
       console.log(e);
+      toast.error(e, {
+        position: 'bottom-center',
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
+      });
     }
   }
 
@@ -147,9 +159,26 @@ function Register() {
                 }}
               />
               <br />
+              {/* Seleção do tipo de cifra */}
+              <div>
+                <label className="block text-sm font-bold mb-2">
+                  Tipo de Cifra:
+                </label>
+                <select
+                  id="tipo-cifra"
+                  name="tipo-cifra"
+                  value={tipoCifra}
+                  onChange={(e) => setTipoCifra(e.target.value)}
+                  className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300"
+                >
+                  <option value="AES-128-CBC">AES-128-CBC</option>
+                  <option value="AES-128-CTR">AES-128-CTR</option>
+                  {/* Adicione mais opções de cifra aqui, se necessário */}
+                </select>
+              </div>
               <button
                 onClick={SubmitRegister}
-                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 rounded-lg text-black"
+                className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 text-black"
               >
                 Register
               </button>

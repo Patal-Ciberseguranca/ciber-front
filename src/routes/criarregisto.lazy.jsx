@@ -35,7 +35,7 @@ function CriarRegistos() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
     if (textoRegistro.length == 0) {
       toast.error('O Registo Deve Conter Algo!', {
         position: 'bottom-center',
@@ -52,22 +52,24 @@ function CriarRegistos() {
       }, 1500);
     } else {
       // Cifrar o texto do registro usando AES-128-CBC
-      const textoCifrado = await CryptoJS.AES.encrypt(textoRegistro, chaveCifra, {
-        mode: CryptoJS.mode.CBC
-      }).toString();
-      console.log(textoCifrado);
-      const HMACmsg = await HMAC(
-        textoCifrado,
+      const textoCifrado = await CryptoJS.AES.encrypt(
+        textoRegistro,
         chaveCifra,
-      );
+        {
+          mode: context.auth.cihperMode == 'AES-128-CBC' ? CryptoJS.mode.CBC : CryptoJS.mode.CTR,
+        },
+      ).toString();
+      console.log(textoCifrado);
+      const HMACmsg = await HMAC(textoCifrado, chaveCifra);
       console.log(textoCifrado, HMACmsg);
-
+      const cipherMode = tipoCifra;
       try {
         // Enviar o texto cifrado para o backend
         const response = await axios.post('http://localhost:3000/registos', {
           username,
           textoCifrado,
-          HMACmsg
+          HMACmsg,
+          cipherMode
         });
         toast.success('Registo Guardado com Sucesso!', {
           position: 'bottom-center',
@@ -164,6 +166,7 @@ function CriarRegistos() {
               className="w-full px-3 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
             >
               <option value="AES-128-CBC">AES-128-CBC</option>
+              <option value="AES-128-CTR">AES-128-CTR</option>
               {/* Adicione mais opções de cifra aqui, se necessário */}
             </select>
           </div>

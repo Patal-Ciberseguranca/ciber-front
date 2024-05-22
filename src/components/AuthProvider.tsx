@@ -37,6 +37,7 @@ const AuthContext = createContext({
   },
   logOut: () => {},
   isAuthenticated: false,
+  cipherMode: 'AES-128-CBC',
 });
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -66,6 +67,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             localStorage.setItem('key', key);
             localStorage.setItem('username', username.toString());
             localStorage.setItem('isAuthenticated', 'true');
+            localStorage.setItem('cipherMode', data.cipherMode);
+            setCipherMode(data.cipherMode);
             setIsAuthenticated(true);
             resolve(true);
           } else if (data === 'UtilizadorNaoExiste') {
@@ -93,9 +96,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('username');
   };
 
+  const [cipherMode, setCipherMode] = useState('AES-128-CBC')
+
   return (
     <AuthContext.Provider
-      value={{ token, user, loginAction, logOut, isAuthenticated }}
+      value={{ token, user, loginAction, logOut, isAuthenticated, cipherMode }}
     >
       {children}
     </AuthContext.Provider>

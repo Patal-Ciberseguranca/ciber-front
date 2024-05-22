@@ -13,8 +13,8 @@ interface Registo {
   username: string;
   registo: string;
   hmac: string;
+  cipherMode: string;
 }
-
 
 function Registos() {
   //Obter a key da pessoa através do LocalStorage
@@ -30,14 +30,18 @@ function Registos() {
     }
     console.log('Registo: ' + registo.registo);
     const json_payLoad = JSON.stringify(registo.registo);
-    const signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(CryptoJS.enc.Base64);
+    const signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(
+      CryptoJS.enc.Base64,
+    );
     const computedHMAC = fromByteArray(toByteArray(signature));
     console.log('ComputedMAC: ' + computedHMAC);
     console.log('Registo HMAC: ' + registo.hmac);
     console.log(computedHMAC === registo.hmac);
 
     if (computedHMAC === registo.hmac) {
-      const textoDecifrado = CryptoJS.AES.decrypt(registo.registo, chaveCifra, { mode: CryptoJS.mode.CBC });
+      const textoDecifrado = CryptoJS.AES.decrypt(registo.registo, chaveCifra, {
+        mode: CryptoJS.mode.CBC,
+      });
       const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
       console.log('Registo Decifrado: ' + finalText);
       console.log('Verified');
@@ -70,6 +74,19 @@ function Registos() {
       //Para cada registo no array ele dá log desse registo específico e do resultado do HMAC
       responseDataArray.forEach((registo) => {
         console.log('Registo:', registo);
+        const chaveCifra = localStorage.getItem('key') || '';
+        const registo_clear = CryptoJS.AES.decrypt(
+          registo.registo,
+          chaveCifra,
+          {
+            mode:
+              registo.cipherMode == 'AES-128-CBC'
+                ? CryptoJS.mode.CBC
+                : CryptoJS.mode.CTR,
+          },
+        ).toString(CryptoJS.enc.Utf8);
+
+        console.log('Registo clear text:', registo_clear);
         const result = compareHMAC_CBC(registo);
         console.log(result);
       });

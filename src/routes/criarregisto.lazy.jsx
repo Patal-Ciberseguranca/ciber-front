@@ -35,7 +35,7 @@ function CriarRegistos() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     if (textoRegistro.length == 0) {
       toast.error('O Registo Deve Conter Algo!', {
         position: 'bottom-center',
@@ -56,7 +56,10 @@ function CriarRegistos() {
         textoRegistro,
         chaveCifra,
         {
-          mode: context.auth.cihperMode == 'AES-128-CBC' ? CryptoJS.mode.CBC : CryptoJS.mode.CTR,
+          mode:
+            context.auth.cihperMode == 'AES-128-CBC'
+              ? CryptoJS.mode.CBC
+              : CryptoJS.mode.CTR,
         },
       ).toString();
       console.log(textoCifrado);
@@ -69,7 +72,7 @@ function CriarRegistos() {
           username,
           textoCifrado,
           HMACmsg,
-          cipherMode
+          cipherMode,
         });
         toast.success('Registo Guardado com Sucesso!', {
           position: 'bottom-center',
@@ -109,78 +112,82 @@ function CriarRegistos() {
   });
 
   return (
-    <div className="flex bg-background text-white">
-      <ToastContainer />
-      {/* Barra Esquerda Lateral */}
+    <div className="flex bg-background text-black items-center justify-center h-[calc(100vh-120px)]">
+      <ToastContainer /> {/* centrar corretamente devido a navbar */}
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-semibold mb-4">Criar Registos</h1>
-
-        {/* Formulário para inserir registro e selecionar opções de cifra */}
-        <form
-          action="#"
-          method="post"
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          onSubmit={handleSubmit}
-        >
-          {/* Campo para inserir o texto do registro */}
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Texto do Registro:
-            </label>
-            <textarea
-              onChange={(e) => setTextoRegistro(e.target.value)}
-              className="w-full h-24 px-3 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
-              placeholder="Insira o texto do registro aqui..."
-            ></textarea>
-          </div>
-
-          {/* Selecionar Chave de Cifra */}
-          <div className="mb-4">
-            <span className="text-gray-700 text-sm font-bold">
-              Chave de Cifra:&nbsp;
-              <label
-                className="text-gray-700 text-sm font-bold"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  filter: isHovered ? 'none' : 'blur(5px)',
-                  transition: 'filter 0.5s',
-                  display: 'inline-block',
-                }}
-              >
-                {chaveCifra}
-              </label>
-            </span>
-          </div>
-
-          {/* Seleção do tipo de cifra */}
-          <div className="mb-6">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Tipo de Cifra:
-            </label>
-            <select
-              id="tipo-cifra"
-              name="tipo-cifra"
-              value={tipoCifra}
-              onChange={(e) => setTipoCifra(e.target.value)}
-              className="w-full px-3 py-2 text-sm text-gray-700 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+        <h1 className="text-2xl font-semibold mb-4 text-white">Criar Registos</h1>
+  
+        {/* Container for the form with the gradient background effect */}
+        <div className="relative">
+          <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-primary via-blend to-primary z-10"></div>
+          <div className="relative z-20">
+            <form
+              action="#"
+              method="post"
+              className="bg-primary shadow-md rounded-md px-8 pt-6 pb-8 mb-4 h-[400px] content-center"
+              onSubmit={handleSubmit}
             >
-              <option value="AES-128-CBC">AES-128-CBC</option>
-              <option value="AES-128-CTR">AES-128-CTR</option>
-              {/* Adicione mais opções de cifra aqui, se necessário */}
-            </select>
+              {/* Campo para inserir o texto do registro */}
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">
+                  Texto do Registro:
+                </label>
+                <textarea
+                  onChange={(e) => setTextoRegistro(e.target.value)}
+                  className="w-full h-24 px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-cinzento"
+                  placeholder="Insira o texto do registro aqui..."
+                ></textarea>
+              </div>
+  
+              {/* Selecionar Chave de Cifra */}
+              <div className="mb-4">
+                <span className="text-sm font-bold">
+                  Chave de Cifra:&nbsp;
+                  <label
+                    className="text-sm font-bold"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      filter: isHovered ? 'none' : 'blur(5px)',
+                      transition: 'filter 0.5s',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {chaveCifra}
+                  </label>
+                </span>
+              </div>
+  
+              {/* Seleção do tipo de cifra */}
+              <div className="mb-6">
+                <label className="block text-sm font-bold mb-2">
+                  Tipo de Cifra:
+                </label>
+                <select
+                  id="tipo-cifra"
+                  name="tipo-cifra"
+                  value={tipoCifra}
+                  onChange={(e) => setTipoCifra(e.target.value)}
+                  className="w-full px-3 py-2 text-sm border focus:outline-none focus:ring focus:ring-secondary focus:border-secondary rounded-md font-bold bg-cinzento"
+                >
+                  <option value="AES-128-CBC" className="font-bold bg-secondary">AES-128-CBC</option>
+                  <option value="AES-128-CTR" className="font-bold bg-secondary">AES-128-CTR</option>
+                  {/* Adicione mais opções de cifra aqui, se necessário */}
+                </select>
+              </div>
+  
+              {/* Botão para cifrar */}
+              <div className="flex items-center justify-center">
+                <button
+                  type="submit"
+                  className="bg-secondary hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Cifrar
+                </button>
+              </div>
+            </form>
           </div>
-
-          {/* Botão para cifrar */}
-          <div className="flex items-center justify-center">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Cifrar
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

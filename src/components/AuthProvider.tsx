@@ -96,7 +96,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem('username');
   };
 
-  const [cipherMode, setCipherMode] = useState('AES-128-CBC')
+  const [cipherMode, setCipherMode] = useState('AES-128-CBC');
 
   return (
     <AuthContext.Provider

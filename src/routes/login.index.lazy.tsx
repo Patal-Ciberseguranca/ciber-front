@@ -67,7 +67,7 @@ function Login() {
               <input
                 type="text"
                 placeholder="Username"
-                className="border-solid border-2 p-1 font-bold text-black"
+                className="border-solid border-2 p-2 font-bold text-black rounded-md bg-cinzento"
                 onChange={(e) => {
                   setUsername(e.target.value);
                 }}
@@ -78,7 +78,7 @@ function Login() {
               <input
                 type="password"
                 placeholder="Password"
-                className="border-solid border-2 p-1 font-bold text-black"
+                className="border-solid border-2 p-2 font-bold text-black rounded-md bg-cinzento"
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}

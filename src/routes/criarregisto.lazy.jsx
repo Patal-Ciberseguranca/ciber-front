@@ -109,67 +109,66 @@ function CriarRegistos() {
   });
 
   return (
-  <div className="flex bg-background text-white items-center justify-center h-[calc(100vh-120px)]">
-    <ToastContainer /> {/* centrar corretamente devido a navbar */}
-    <div className="container mx-auto px-4 py-8 w-[calc(100vh-25px)]">
-      <h1 className="text-2xl font-semibold mb-4 ">Criar Registos</h1>
+    <div className="flex bg-background text-white items-center justify-center h-[calc(100vh-120px)]">
+      <ToastContainer /> {/* centrar corretamente devido a navbar */}
+      <div className="container mx-auto px-4 py-8 w-[calc(100vh-25px)]">
+        <h1 className="text-2xl font-semibold mb-4 ">Criar Registos</h1>
 
-      {/* Container for the form with the gradient background effect */}
-      <div className="relative">
-        <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-primary via-blend to-primary z-0"></div>
-        <div className="relative z-10 p-1">
-          {/* Formulário para inserir registro e selecionar opções de cifra */}
-          <form
-            action="#"
-            method="post"
-            className="bg-primary shadow-md rounded px-8 pt-6 pb-8 mb-1 border-blend border-2 border-solid h-[400px]"
-            onSubmit={handleSubmit}
-          >
-            {/* Campo para inserir o texto do registro */}
-            <div className="mb-4">
-              <label className="block text-sm font-bold mb-2">
-                Texto do Registro:
-              </label>
-              <textarea
-                onChange={(e) => setTextoRegistro(e.target.value)}
-                className="w-full h-[200px] p-1 text-sm border rounded-lg focus:outline-none focus:ring focus:border-blend text-black"
-                placeholder="Insira o texto do registro aqui..."
-              ></textarea>
-            </div>
-
-            {/* Selecionar Chave de Cifra */}
-            <div className="ml-[35%] mt-[3%]">
-              <span className="text-sm font-bold">
-                Chave de Cifra:&nbsp;
-                <label
-                  className="text-sm font-bold"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  style={{
-                    filter: isHovered ? 'none' : 'blur(5px)',
-                    transition: 'filter 0.5s',
-                    display: 'inline-block',
-                  }}
-                >
-                  {chaveCifra}
+        {/* Container for the form with the gradient background effect */}
+        <div className="relative">
+          <div className="absolute -inset-1 rounded-md blur-md bg-gradient-to-br from-primary via-blend to-primary z-0"></div>
+          <div className="relative z-10 p-1">
+            {/* Formulário para inserir registro e selecionar opções de cifra */}
+            <form
+              action="#"
+              method="post"
+              className="bg-primary shadow-md rounded px-8 pt-6 pb-8 mb-1 border-blend border-2 border-solid h-[400px]"
+              onSubmit={handleSubmit}
+            >
+              {/* Campo para inserir o texto do registro */}
+              <div className="mb-4">
+                <label className="block text-sm font-bold mb-2">
+                  Texto do Registro:
                 </label>
-              </span>
-            </div>
+                <textarea
+                  onChange={(e) => setTextoRegistro(e.target.value)}
+                  className="w-full h-[200px] p-1 text-sm border rounded-lg focus:outline-none focus:ring focus:border-blend text-black"
+                  placeholder="Insira o texto do registro aqui..."
+                ></textarea>
+              </div>
 
-            {/* Botão para cifrar */}
-            <div className="flex items-center justify-center mt-[3%]">
-              <button
-                type="submit"
-                className="bg-secondary text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Cifrar
-              </button>
-            </div>
-          </form>
+              {/* Selecionar Chave de Cifra */}
+              <div className="ml-[35%] mt-[3%]">
+                <span className="text-sm font-bold">
+                  Chave de Cifra:&nbsp;
+                  <label
+                    className="text-sm font-bold"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    style={{
+                      filter: isHovered ? 'none' : 'blur(5px)',
+                      transition: 'filter 0.5s',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {chaveCifra}
+                  </label>
+                </span>
+              </div>
+
+              {/* Botão para cifrar */}
+              <div className="flex items-center justify-center mt-[3%]">
+                <button
+                  type="submit"
+                  className="bg-secondary text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Cifrar
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 }

@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
-import { IoIosSave } from 'react-icons/io';
 import { useState } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
@@ -58,9 +57,10 @@ function Registos() {
 
   const handleClick = async () => {
     try {
-
-      const textoCenaElement = document.getElementById('TextoCena') as HTMLInputElement;
-      textoCenaElement.value = "";
+      const textoCenaElement = document.getElementById(
+        'TextoCena',
+      ) as HTMLInputElement;
+      textoCenaElement.value = '';
       textoCenaElement.disabled = false;
       //Ir buscar o username ao LocalStorage
       const username = localStorage.getItem('username');
@@ -105,22 +105,19 @@ function Registos() {
     const chaveCifra = localStorage.getItem('key') || ''; //ir buscar a Key
 
     //Dar decrypt
-    const registo_clear = CryptoJS.AES.decrypt(
-      registo.registo,
-      chaveCifra,
-      {
-        mode:
-          context.auth.cipherMode == 'AES-128-CBC'
-            ? CryptoJS.mode.CBC
-            : CryptoJS.mode.CTR,
-      },
-    ).toString(CryptoJS.enc.Utf8);
-    
+    const registo_clear = CryptoJS.AES.decrypt(registo.registo, chaveCifra, {
+      mode:
+        context.auth.cipherMode == 'AES-128-CBC'
+          ? CryptoJS.mode.CBC
+          : CryptoJS.mode.CTR,
+    }).toString(CryptoJS.enc.Utf8);
+
     //meter o value da text area como o registo já decifrado
-    const textoCenaElement = document.getElementById('TextoCena') as HTMLInputElement;
+    const textoCenaElement = document.getElementById(
+      'TextoCena',
+    ) as HTMLInputElement;
     textoCenaElement.value = registo_clear;
     textoCenaElement.disabled = true;
-
   };
 
   return (
@@ -159,7 +156,6 @@ function Registos() {
 
             {/* Barra de Pesquisa */}
             <div className=" ">
-
               {/* Registos */}
               <div className="flex-1 overflow-y-auto">
                 {registos &&
@@ -199,9 +195,11 @@ function Registos() {
             {/* Barra de Informação do Chat */}
             <div className="h-20 bg-gray-700 flex items-center justify-between p-3 text-gray-200">
               {/* chatInfo */}
-              <span className="ml-[19%]">Aqui só serve para ver registos já criados, ir a Criar Registo para criar</span>
+              <span className="ml-[19%]">
+                Aqui só serve para ver registos já criados, ir a Criar Registo
+                para criar
+              </span>
               <div className="flex gap-3">
-                <IoIosSave className="cursor-pointer h-10 w-10" />
               </div>
             </div>
 

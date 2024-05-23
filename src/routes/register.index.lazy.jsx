@@ -169,7 +169,7 @@ function Register() {
                   name="tipo-cifra"
                   value={cipherMode}
                   onChange={(e) => setCipherMode(e.target.value)}
-                  className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300"
+                  className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300 font-bold"
                 >
                   <option
                     value="AES-128-CBC"

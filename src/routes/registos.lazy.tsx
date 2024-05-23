@@ -138,16 +138,18 @@ function Registos() {
 
               {/* Outras Contas de Utilizadores 1 */}
               <div className="flex-1 overflow-y-auto">
-                {registos && registos.map((registo, index) => (
-                  <div
-                    key={index}
-                    className="p-3 w-[90%] mt-[5px] mx-auto flex items-center gap-2.5 cursor-pointer hover:bg-secondary hover:text-black rounded-md border border-solid border-blend"
-                  >
-                    <div>
-                      <span className="text-lg font-bold">{registo.date}</span>
-                      <p className="text-sm ">
-                        {
-                          CryptoJS.AES.decrypt(
+                {registos &&
+                  registos.map((registo, index) => (
+                    <div
+                      key={index}
+                      className="p-3 w-[90%] mt-[5px] mx-auto flex items-center gap-2.5 cursor-pointer hover:bg-secondary hover:text-black rounded-md border border-solid border-blend"
+                    >
+                      <div>
+                        <span className="text-lg font-bold">
+                          {registo.date}
+                        </span>
+                        <p className="text-sm ">
+                          {CryptoJS.AES.decrypt(
                             registo.registo,
                             localStorage.getItem('key') || '',
                             {
@@ -156,12 +158,11 @@ function Registos() {
                                   ? CryptoJS.mode.CBC
                                   : CryptoJS.mode.CTR,
                             },
-                          ).toString(CryptoJS.enc.Utf8)
-                        }
-                      </p>
+                          ).toString(CryptoJS.enc.Utf8)}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
           </div>

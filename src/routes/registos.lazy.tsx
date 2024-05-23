@@ -23,9 +23,6 @@ function Registos() {
   const [registos, setRegistos] = useState<Registo[]>();
   const context = Route.useRouteContext();
 
-  //HELP WITH THIS PLS
-  //comparar o HMAC calculado com o HMAC na BD, por agora razão isto dá sempre mal confirmar depois
-  //HELP WITH THIS PLS
   const compareHMAC_CBC = (registo: Registo) => {
     if (!chaveCifra) {
       console.error('Chave de cifra not found in localStorage');
@@ -61,6 +58,10 @@ function Registos() {
 
   const handleClick = async () => {
     try {
+
+      const textoCenaElement = document.getElementById('TextoCena') as HTMLInputElement;
+      textoCenaElement.value = "";
+      textoCenaElement.disabled = false;
       //Ir buscar o username ao LocalStorage
       const username = localStorage.getItem('username');
       //ir a Index.js no ciber-back
@@ -97,6 +98,31 @@ function Registos() {
       console.error('Error fetching registos:', error);
     }
   };
+
+  const handleRegistoClick = (registo: Registo) => {
+    //Botão de cada div para meter os registos na textarea
+
+    const chaveCifra = localStorage.getItem('key') || ''; //ir buscar a Key
+
+    //Dar decrypt
+    const registo_clear = CryptoJS.AES.decrypt(
+      registo.registo,
+      chaveCifra,
+      {
+        mode:
+          context.auth.cipherMode == 'AES-128-CBC'
+            ? CryptoJS.mode.CBC
+            : CryptoJS.mode.CTR,
+      },
+    ).toString(CryptoJS.enc.Utf8);
+    
+    //meter o value da text area como o registo já decifrado
+    const textoCenaElement = document.getElementById('TextoCena') as HTMLInputElement;
+    textoCenaElement.value = registo_clear;
+    textoCenaElement.disabled = true;
+
+  };
+
   return (
     <div className="h-[92%] bg-background text-white flex justify-center items-center ">
       {/* Container */}
@@ -115,18 +141,17 @@ function Registos() {
                 className="text-black justify-center bg-secondary"
               />
               {/* User */}
-              {/*ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC
-              VER LINHA 47*/}
+
+              {/* Abençoado Botão */}
               <button
                 onClick={handleClick}
-                className=" border-3 border-secondary p-3  rounded-md bg-white"
+                className=" border-3 border-secondary p-3  rounded-md bg-secondary text-black"
               >
-                olaaa
+                Ver Registos
               </button>
-              {/*ESTE BOTAO É O BOTAO DE TESTES PARA EXPERIMENTAR O HMAC E ETC
-              VER LINHA 47*/}
+              {/* Abençoado Botão */}
+
               <div>
-                {/* Imagem do Utilizador */}
                 {/* Nome do Utilizador */}
                 <span>O Utilizador {context.auth.username} está logado</span>
               </div>
@@ -134,15 +159,15 @@ function Registos() {
 
             {/* Barra de Pesquisa */}
             <div className=" ">
-              {/* Pesquisar */}
 
-              {/* Outras Contas de Utilizadores 1 */}
+              {/* Registos */}
               <div className="flex-1 overflow-y-auto">
                 {registos &&
                   registos.map((registo, index) => (
                     <div
                       key={index}
                       className="p-3 w-[90%] mt-[5px] mx-auto flex items-center gap-2.5 cursor-pointer hover:bg-secondary hover:text-black rounded-md border border-solid border-blend"
+                      onClick={() => handleRegistoClick(registo)}
                     >
                       <div>
                         <span className="text-lg font-bold">
@@ -158,7 +183,9 @@ function Registos() {
                                   ? CryptoJS.mode.CBC
                                   : CryptoJS.mode.CTR,
                             },
-                          ).toString(CryptoJS.enc.Utf8)}
+                          )
+                            .toString(CryptoJS.enc.Utf8)
+                            .slice(0, 20) + '...'}
                         </p>
                       </div>
                     </div>
@@ -172,7 +199,7 @@ function Registos() {
             {/* Barra de Informação do Chat */}
             <div className="h-20 bg-gray-700 flex items-center justify-between p-3 text-gray-200">
               {/* chatInfo */}
-              <span className="ml-[48%]">Data</span>
+              <span className="ml-[19%]">Aqui só serve para ver registos já criados, ir a Criar Registo para criar</span>
               <div className="flex gap-3">
                 <IoIosSave className="cursor-pointer h-10 w-10" />
               </div>
@@ -180,7 +207,7 @@ function Registos() {
 
             <textarea
               name=""
-              id=""
+              id="TextoCena"
               className="w-[80%] h-[75%] p-3 text-black rounded-md ml-[10.5%] mt-[6%]"
             ></textarea>
           </div>

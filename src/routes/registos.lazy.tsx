@@ -14,6 +14,7 @@ interface Registo {
   registo: string;
   hmac: string;
   cipherMode: string;
+  hmacMode: string;
 }
 
 function Registos() {
@@ -29,9 +30,16 @@ function Registos() {
     }
     console.log('Registo: ' + registo.registo);
     const json_payLoad = JSON.stringify(registo.registo);
-    const signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(
-      CryptoJS.enc.Base64,
-    );
+    var signature = "";
+    if (context.auth.hmacMode == "SHA512") {
+      signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(
+        CryptoJS.enc.Base64,
+      );
+    } else if (context.auth.hmacMode == "SHA256") {
+      signature = CryptoJS.HmacSHA256(json_payLoad, chaveCifra).toString(
+        CryptoJS.enc.Base64,
+      );
+    }
     const computedHMAC = fromByteArray(toByteArray(signature));
     console.log('ComputedMAC: ' + computedHMAC);
     console.log('Registo HMAC: ' + registo.hmac);
@@ -199,8 +207,7 @@ function Registos() {
                 Aqui só serve para ver registos já criados, ir a Criar Registo
                 para criar
               </span>
-              <div className="flex gap-3">
-              </div>
+              <div className="flex gap-3"></div>
             </div>
 
             <textarea

@@ -5,6 +5,7 @@ const AuthContext = createContext({
   token: '',
   username: '',
   cipherMode: 'AES-128-CBC',
+  hmacMode: 'SHA512',
   loginAction: (username: String, password: String): Promise<unknown> => {
     return new Promise((resolve, reject) => {
       // Perform login action
@@ -49,6 +50,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [cipherMode, setCipherMode] = useState('AES-128-CBC');
+  const [hmacMode, setHMACMode] = useState('SHA512');
 
   const loginAction = async (username: String, password: String) => {
     return new Promise((resolve, reject) => {
@@ -70,6 +72,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             localStorage.setItem('isAuthenticated', 'true');
             localStorage.setItem('cipherMode', data.cipherMode);
             setCipherMode(data.cipherMode);
+            localStorage.setItem('hmacMode', data.hmacMode);
+            setHMACMode(data.hmacMode);
             setIsAuthenticated(true);
             resolve(true);
           } else if (data === 'UtilizadorNaoExiste') {
@@ -106,6 +110,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         logOut,
         isAuthenticated,
         cipherMode,
+        hmacMode,
       }}
     >
       {children}

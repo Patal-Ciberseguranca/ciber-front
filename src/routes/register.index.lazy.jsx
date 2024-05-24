@@ -14,6 +14,7 @@ function Register() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate({ from: '/register' });
   const [cipherMode, setCipherMode] = useState('AES-128-CBC');
+  const [hmacMode, setHMACMode] = useState('SHA512');
 
   async function SubmitRegister(e) {
     e.preventDefault();
@@ -24,6 +25,7 @@ function Register() {
         email,
         password,
         cipherMode,
+        hmacMode,
       });
 
       const { data } = response;
@@ -186,6 +188,34 @@ function Register() {
                   {/* Adicione mais opções de cifra aqui, se necessário */}
                 </select>
               </div>
+              {/* Seleção do tipo de hmac */}
+              <div>
+                <label className="block text-sm font-bold mb-2">
+                  Tipo de HMAC:
+                </label>
+                <select
+                  id="tipo-hmac"
+                  name="tipo-hmac"
+                  value={cipherMode}
+                  onChange={(e) => setHMACMode(e.target.value)}
+                  className="w-full px-3 py-2 text-sm text-gray-700 border focus:outline-none focus:ring focus:border-blue-300 font-bold"
+                >
+                  <option
+                    value="SHA512"
+                    className="font-bold bg-secondary text-black"
+                  >
+                    SHA512
+                  </option>
+                  <option
+                    value="SHA256"
+                    className="font-bold bg-secondary text-black"
+                  >
+                    SHA256
+                  </option>
+                  {/* Adicione mais opções de cifra aqui, se necessário */}
+                </select>
+              </div>
+              <br />
               <button
                 onClick={SubmitRegister}
                 className="cursor-pointer justify-center content-center block mx-auto mt-3 bg-secondary font-bold py-2 px-4 text-black"

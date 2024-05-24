@@ -22,9 +22,14 @@ function CriarRegistos() {
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
-  const HMAC = async (message, key) => {
+  const HMAC = async (message, key, method) => {
+    console.log(method);
     function signString(message, key) {
-      return CryptoJS.HmacSHA512(message, key).toString(CryptoJS.enc.Base64);
+      if (method == 'SHA512') {
+        return CryptoJS.HmacSHA512(message, key).toString(CryptoJS.enc.Base64);
+      } else if (method == 'SHA256') {
+        return CryptoJS.HmacSHA256(message, key).toString(CryptoJS.enc.Base64);
+      }
     }
     const json_payLoad = JSON.stringify(message);
     const signature = signString(json_payLoad, key);
@@ -62,7 +67,11 @@ function CriarRegistos() {
               : CryptoJS.mode.CTR,
         },
       ).toString();
-      const HMACmsg = await HMAC(textoCifrado, chaveCifra);
+      const HMACmsg = await HMAC(
+        textoCifrado,
+        chaveCifra,
+        context.auth.hmacMode,
+      );
       console.log(textoCifrado, HMACmsg);
       try {
         // Enviar o texto cifrado para o backend

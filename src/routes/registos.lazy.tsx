@@ -47,7 +47,9 @@ function Registos() {
 
     if (computedHMAC === registo.hmac) {
       const textoDecifrado = CryptoJS.AES.decrypt(registo.registo, chaveCifra, {
-        mode: CryptoJS.mode.CBC,
+        mode: (context.auth.cipherMode == 'AES-128-CBC'
+        ? CryptoJS.mode.CBC
+        : CryptoJS.mode.CTR),
       });
       const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
       console.log('Registo Decifrado: ' + finalText);

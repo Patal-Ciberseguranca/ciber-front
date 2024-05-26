@@ -211,7 +211,7 @@ function Registos() {
             <div className="h-20 bg-gray-700 flex items-center justify-between p-3 text-gray-200">
               {/* chatInfo */}
               <span className="ml-[19%]">
-                Aqui é Possível Observar os Registos Já Criados, Para Criar Um Deve-se Deslocar <Link className='text-purple-400' to="/login">Aqui</Link>
+                Aqui é Possível Observar os Registos Já Criados, Para Criar Um Deve-se Deslocar <Link className='text-purple-400' to="/criarregisto">Aqui</Link>
               </span>
               <div className="flex gap-3"></div>
             </div>

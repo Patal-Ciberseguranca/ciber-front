@@ -1,8 +1,9 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { Link, createLazyFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
 import { fromByteArray, toByteArray } from 'base64-js';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const Route = createLazyFileRoute('/registos')({
   component: Registos,
@@ -25,38 +26,51 @@ function Registos() {
 
   const compareHMAC_CBC = (registo: Registo) => {
     if (!chaveCifra) {
-      console.error('Chave de cifra not found in localStorage');
+      toast.error('Chave de Cifra em Falta!', {
+        position: 'bottom-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
+      });
       return 'Chave de cifra not found';
     }
-    console.log('Registo: ' + registo.registo);
     const json_payLoad = JSON.stringify(registo.registo);
-    var signature = "";
-    if (context.auth.hmacMode == "SHA512") {
+    var signature = '';
+    if (context.auth.hmacMode == 'SHA512') {
       signature = CryptoJS.HmacSHA512(json_payLoad, chaveCifra).toString(
         CryptoJS.enc.Base64,
       );
-    } else if (context.auth.hmacMode == "SHA256") {
+    } else if (context.auth.hmacMode == 'SHA256') {
       signature = CryptoJS.HmacSHA256(json_payLoad, chaveCifra).toString(
         CryptoJS.enc.Base64,
       );
     }
     const computedHMAC = fromByteArray(toByteArray(signature));
-    console.log('ComputedMAC: ' + computedHMAC);
-    console.log('Registo HMAC: ' + registo.hmac);
-    console.log(computedHMAC === registo.hmac);
 
     if (computedHMAC === registo.hmac) {
       const textoDecifrado = CryptoJS.AES.decrypt(registo.registo, chaveCifra, {
-        mode: (context.auth.cipherMode == 'AES-128-CBC'
-        ? CryptoJS.mode.CBC
-        : CryptoJS.mode.CTR),
+        mode:
+          context.auth.cipherMode == 'AES-128-CBC'
+            ? CryptoJS.mode.CBC
+            : CryptoJS.mode.CTR,
       });
       const finalText = textoDecifrado.toString(CryptoJS.enc.Utf8);
-      console.log('Registo Decifrado: ' + finalText);
-      console.log('Verified');
       return 'Integrity verified';
     } else {
-      console.log('Not Verified');
+      toast.error('Tem um Registo Comprometido!', {
+        position: 'bottom-center',
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: 'dark',
+      });
       return {
         message: 'Integrity compromised',
         computedHMAC: computedHMAC,
@@ -132,6 +146,7 @@ function Registos() {
 
   return (
     <div className="h-[92%] bg-background text-white flex justify-center items-center ">
+      <ToastContainer />
       {/* Container */}
       <div className="relative w-10/12 h-5/6">
         <div className="border-2 border-blend rounded-xl h-full flex truncate relative z-20">
@@ -141,13 +156,9 @@ function Registos() {
             <div className="flex items-center bg-gray-800 h-20 p-3 justify-between">
               {/* Logo */}
               <span className="font-bold">CANTTOUCHME</span>
-              <input
-                type="date"
-                name=""
-                id=""
-                className="text-black justify-center bg-secondary"
-              />
               {/* User */}
+
+              {/* Abençoado Botão */}
 
               {/* Abençoado Botão */}
               <button
@@ -156,12 +167,6 @@ function Registos() {
               >
                 Ver Registos
               </button>
-              {/* Abençoado Botão */}
-
-              <div>
-                {/* Nome do Utilizador */}
-                <span>O Utilizador {context.auth.username} está logado</span>
-              </div>
             </div>
 
             {/* Barra de Pesquisa */}
@@ -206,8 +211,7 @@ function Registos() {
             <div className="h-20 bg-gray-700 flex items-center justify-between p-3 text-gray-200">
               {/* chatInfo */}
               <span className="ml-[19%]">
-                Aqui só serve para ver registos já criados, ir a Criar Registo
-                para criar
+                Aqui é Possível Observar os Registos Já Criados, Para Criar Um Deve-se Deslocar <Link className='text-purple-400' to="/login">Aqui</Link>
               </span>
               <div className="flex gap-3"></div>
             </div>

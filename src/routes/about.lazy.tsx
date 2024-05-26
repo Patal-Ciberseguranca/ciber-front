@@ -36,7 +36,7 @@ function About() {
               <strong>Rodrigo Paiva</strong> - Nº49442
             </li>
             <li>
-              <strong>Matilde Almeida</strong> - Nº
+              <strong>Matilde Almeida</strong> - Nº46194
             </li>
           </ul>
         </section>
